@@ -46,10 +46,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-
-const Navbar = props => {
+export default function Navbar(props) {
     const classes = useStyles();
-
     return (
         <Fragment>
             <AppBar position="sticky">
@@ -64,7 +62,7 @@ const Navbar = props => {
                             </Grid>
                         </Hidden>
                          <Hidden mdUp>
-                             <Grid xs={3}>
+                             <Grid item xs={3}>
                                  <IconButton
                                      edge="start"
                                      className={classes.menuButton}
@@ -80,9 +78,11 @@ const Navbar = props => {
                                 <Logo logoType="appLogo" />
                             </Typography>
                         </Grid>
-                        <Grid xs={3} md={5} className={classes.logInBtnContainer}>
-                            <Button size="large" color="inherit" disableRipple>
-                                Εισοδος
+                        <Grid item xs={3} md={5} className={classes.logInBtnContainer}>
+                            <Button size="large"
+                                    onClick={props.clickSignIn}
+                                    color="inherit" disableRipple>
+                                {props.token ? 'εξοδος' : 'εισοδος'}
                             </Button>
                         </Grid>
                      </Grid>
@@ -103,5 +103,3 @@ const Navbar = props => {
         </Fragment>
     );
 }
-
-export default Navbar;

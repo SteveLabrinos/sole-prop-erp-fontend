@@ -1,5 +1,8 @@
 import React, { Fragment, useState, memo } from 'react';
+import { useHistory } from 'react-router';
 import { makeStyles } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { authTokenSelector } from '../../containers/Auth/authSlice';
 
 import Navbar from '../../components/Navigation/Navbar/Navbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
@@ -24,6 +27,9 @@ const useStyles = makeStyles(theme => ({
 
 const Layout = props => {
     const classes = useStyles();
+    const history = useHistory();
+
+    const token = useSelector(authTokenSelector);
 
     const [sideDrawerIsVisible, setSideDrawerIsVisible] = useState(false);
 
@@ -45,12 +51,19 @@ const Layout = props => {
         setPrivacyVisible(true);
     };
 
+    const handleSignIn = () => {
+        console.log('token is', token);
+        history.push(`/auth/sign-${token ? 'out' : 'in'}`);
+    };
+
     return (
         <Fragment>
             <Modal show={privacyVisible} closeModal={handlePrivacyClose}>
                 <PrivacyPolicy />
             </Modal>
-            <Navbar toggleDrawer={handleSideDrawerToggle} />
+            <Navbar toggleDrawer={handleSideDrawerToggle}
+                    token={token}
+                    clickSignIn={handleSignIn} />
             <SideDrawer open={sideDrawerIsVisible} closed={handleSideDrawerClose} />
             <main className={classes.mainStyled}>
                 <Container maxWidth="xl">
