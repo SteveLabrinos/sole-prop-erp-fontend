@@ -50,14 +50,14 @@ export default function Navbar(props) {
     const classes = useStyles();
     return (
         <Fragment>
-            <AppBar position="sticky">
+            <AppBar position="sticky" id="back-to-top-anchor">
                 <Toolbar className={classes.toolbar} >
                     <CssBaseline />
                      <Grid container spacing={2} justify="space-between" alignItems="center">
                         <Hidden smDown>
                             <Grid item md={5}>
                                 <Typography variant="h5" component="h2" className={classes.title}>
-                                    Sole ERP
+                                    Sole Prop ERP
                                 </Typography>
                             </Grid>
                         </Hidden>

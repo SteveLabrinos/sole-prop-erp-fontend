@@ -55,6 +55,7 @@ export default function SignUp() {
     const [values, setValues] = useState({
         firstName: '',
         lastName: '',
+        username: '',
         email: '',
         password: '',
         showPassword: false
@@ -66,13 +67,13 @@ export default function SignUp() {
 
     const handleSignUp = useCallback((event) => {
         event.preventDefault();
-        dispatch(authSignUp(values.firstName, values.lastName, values.email, values.password));
-    }, [dispatch, values.firstName, values.lastName, values.email, values.password]);
+        dispatch(authSignUp(values.firstName, values.lastName, values.username, values.email, values.password));
+    }, [values, dispatch]);
 
     const errorMsg = error ?
         <Typography variant="h5" color="error">
             <ErrorOutlineIcon style={{ fontSize: 22, paddingRight: 12 }}/>
-            Δεν είναι η εγγραφή σας. Ελέγξτε τα στοιχεία εγγραφής
+            Δεν πραγματοποιήθηκε η εγγραφή σας. Ελέγξτε τα στοιχεία που δώσατε
         </Typography> : null;
 
     const authRedirect = token ?
@@ -116,6 +117,18 @@ export default function SignUp() {
                                     placeholder="Συμπληρώστε Επώνυμο"
                                     autoComplete="lname"
                                     onChange={handleChange('lastName')}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="username"
+                                    label="Username"
+                                    name="username"
+                                    placeholder="Συμπληρώστε το Username"
+                                    autoComplete="username"
+                                    onChange={handleChange('username')}
                                 />
                             </Grid>
                             <Grid item xs={12}>

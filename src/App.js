@@ -49,7 +49,7 @@ function App() {
         <Switch>
             <Route path="/auth/sign-in" render={props => <SignIn {...props} />} />
             <Route path="/auth/sign-up" render={props => <SignUp {...props} />} />
-            <Route path="/" exact render={ props => <Dashboard {...props} /> } />
+            <Redirect to="/auth/sign-in" />
         </Switch>;
 
     return (

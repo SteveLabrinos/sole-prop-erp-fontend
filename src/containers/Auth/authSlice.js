@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { baseURL } from '../../shared/utility';
 
 export const authSlice = createSlice({
     name: 'auth',
     initialState: {
         token: null,
+        userId: null,
         error: null,
         loading: false,
     },
@@ -14,9 +15,12 @@ export const authSlice = createSlice({
             state.loading = true;
         },
         authSuccess: (state, action) => {
-            state.token = action.payload;
+            state.token = action.payload.tokenId;
+            state.userId = action.payload.user.id;
+            state.firstName = action.payload.user.firstName;
+            state.lastName = action.payload.user.lastName;
             state.error = null;
-            state.loading = true;
+            state.loading = false;
         },
         authFail: (state, action) => {
             state.error = action.payload;
@@ -24,6 +28,9 @@ export const authSlice = createSlice({
         },
         authLogout: state => {
             state.token = null;
+            state.userId = null;
+            state.firstName = null;
+            state.lastName = null;
         },
         authLogoutError: (state, action) => {
             state.error = action.payload
@@ -31,75 +38,82 @@ export const authSlice = createSlice({
     }
 });
 
-
 //  export the reducers to be used as actions
 export const { authStart, authSuccess, authFail, authLogout, authLogoutError } = authSlice.actions;
 
-//  use dispatch to include thunk and make async actions
-export const authSignOut = token => async dispatch => {
-    const response = await fetch(`ms/ais/api/user/signout?tokenId=${token}`);
+const successLogin = async (response, dispatch) => {
     if (!response.ok) {
-        const message = `An error has occurred: ${response.status}`;
-        dispatch(authLogoutError(message));
-    }
-    await response.json();
-    localStorage.removeItem('erp-token');
-    return dispatch(authLogout());
-    //  deleting token from the backend
-    // axios.delete(`ms/ais/api/user/signout?tokenId=${token}`)
-    //     .then(response => {
-    //         //  remove local storage user information
-    //         localStorage.removeItem('erp-token');
-    //         dispatch(authLogout());
-    //     })
-    //     .catch(error => authLogoutError(error.data ? error.data : true));
-};
-
-export const authSignIn = (email, password) => {
-    return dispatch => {
-        dispatch(authStart());
-
-        axios.get(`ms/ais/api/user/signin?email=${email}&password=${password}`)
-            .then(response => {
-                //  store token into the local storage
-                localStorage.setItem('erp-token', response.data);
-                dispatch(authSuccess(response.data));
-            })
-            .catch(error => {
-                dispatch(authFail(error.data ? error.data : true));
-            });
+        dispatch(authFail(response.status));
+        throw new Error('Error processing data: ' + response.status);
+    } else {
+        const data = await response.json();
+        //  store user data into the local storage
+        localStorage.setItem('erp-token', data.tokenId);
+        localStorage.setItem('erp-id', data.user.id);
+        localStorage.setItem('erp-firstname', data.user.firstName);
+        localStorage.setItem('erp-lastname', data.user.lastName);
+        dispatch(authSuccess(data));
     }
 }
 
-export const authSignUp = (firstName, lastName, email, password) => {
-    return dispatch => {
-        dispatch(authStart());
-        //  user authentication
-        const authData = {
-            firstName,
-            lastName,
-            email,
-            password
-        };
-
-        //  SignUp
-        axios.post(`ms/ais/api/user/signup`, authData)
-            .then(response => {
-                // store token into the local storage
-                localStorage.setItem('erp-token', response.data);
-                dispatch(authSuccess(response.data));
-            })
-            .catch(error => {
-                dispatch(authFail(error.data ? error.data : true));
-            });
+//  use dispatch to include thunk and make async actions
+export const authSignOut = token => async dispatch => {
+    const response = await fetch(`${baseURL}user/signout?tokenId=${token}`,
+        { method: 'DELETE' });
+    if (!response.ok) {
+        authLogoutError(response.status );
+        throw new Error('Error deleting session token: ' + response.status);
+    } else {
+        //  remove local storage user information
+        localStorage.removeItem('erp-token');
+        localStorage.removeItem('erp-id');
+        localStorage.removeItem('erp-firstname');
+        localStorage.removeItem('erp-firstname');
+        dispatch(authLogout());
     }
+};
+
+
+
+export const authSignIn = (username, password) => async dispatch => {
+    dispatch(authStart());
+    const response = await
+        fetch(`${baseURL}user/signin?username=${username}&password=${password}`);
+
+    await successLogin(response, dispatch);
+};
+
+export const authSignUp = (firstname, lastname, username, email, password) => async dispatch => {
+    dispatch(authStart());
+    //  user authentication
+    const authData = {
+        firstname,
+        lastname,
+        username,
+        email,
+        password
+    };
+    //  Sign Up
+    const response = await fetch(`${baseURL}user/signup`, {
+        method: 'POST',
+        body: JSON.stringify(authData)
+    });
+
+    await successLogin(response, dispatch);
 };
 
 export const authCheckState = () => dispatch => {
     const token = localStorage.getItem('erp-token');
+    const id = localStorage.getItem('erp-id');
+    const firstName = localStorage.getItem('erp-firstname');
+    const lastName = localStorage.getItem('erp-lastname');
 
     if (token) {
-        dispatch(authSuccess(token));
+        const payload = {
+            tokenId: token,
+            user: { id, firstName, lastName }
+        }
+        dispatch(authSuccess(payload));
     }
 };
 

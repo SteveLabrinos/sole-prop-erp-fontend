@@ -98,12 +98,12 @@ export default function SignIn() {
                             margin="normal"
                             required
                             fullWidth
-                            id="email"
-                            type="email"
-                            label="Διεύθυνση Email"
+                            id="text"
+                            type="text"
+                            label="Email/Username"
                             name="email"
-                            placeholder="Συμπληρώστε το Email"
-                            autoComplete="email"
+                            placeholder="Συμπληρώστε Email ή Username"
+                            autoComplete="text"
                             autoFocus
                             onChange={handleChange('email')} />
                         <TextField
