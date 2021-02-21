@@ -18,7 +18,7 @@ const sideDrawer = ({ open, closed }) => {
             <Backdrop show={open} clicked={closed} />
             <div className={attachedClasses.join(' ')} onClick={closed}>
                 <div className={classes.Logo}>
-                    <Logo logoType="appLogo"/>
+                    <Logo logoType="appLogo" mobile/>
                 </div>
                 <nav>
                     <NavigationItems />
