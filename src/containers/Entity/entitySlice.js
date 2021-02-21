@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { baseURL } from '../../shared/utility';
 
 const entitySlice = createSlice({
     name: 'entity',
@@ -41,9 +42,24 @@ const { fetchEntitiesStart, fetchEntitiesSuccess, fetchEntitiesFail,
     addEntity, updateEntity, deleteEntity } = entitySlice.actions;
 
 //  async actions with thunk
+export const fetchEntitiesCollection = tokenId => dispatch => {
+    const fetchEntities = async () => {
+        dispatch(fetchEntitiesStart());
+
+        const response = await fetch(`${baseURL}entities?tokenId=${tokenId}`);
+
+        !response.ok ?
+            dispatch(fetchEntitiesFail(response.status)) :
+            dispatch(fetchEntitiesSuccess(await response.json()));
+    }
+
+    fetchEntities().catch(error => console.log(error));
+};
 
 
 //  selectors
+export const entitiesSelector = state => state.entity;
 
+//  export the reducer to the central store
 export default entitySlice.reducer;
 

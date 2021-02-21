@@ -52,9 +52,6 @@ export default function SignIn() {
     const classes = useStyles();
 
     const { token, error, loading } = useSelector(authSelector);
-    // const loading = useSelector(state => state.auth.loading);
-    // const error = useSelector(state => state.auth.error);
-    // const isAuth = useSelector(state => state.auth.token);
 
     const [values, setValues] = useState({
         email: '',

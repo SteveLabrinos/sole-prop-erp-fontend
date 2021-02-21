@@ -52,7 +52,6 @@ const Layout = props => {
     };
 
     const handleSignIn = () => {
-        console.log('token is', token);
         history.push(`/auth/sign-${token ? 'out' : 'in'}`);
     };
 
@@ -66,7 +65,7 @@ const Layout = props => {
                     clickSignIn={handleSignIn} />
             <SideDrawer open={sideDrawerIsVisible} closed={handleSideDrawerClose} />
             <main className={classes.mainStyled}>
-                <Container maxWidth="xl">
+                <Container maxWidth="lg">
                     {props.children}
                 </Container>
             </main>

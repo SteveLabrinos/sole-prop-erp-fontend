@@ -13,6 +13,8 @@ import Logout from './containers/Auth/SignOut';
 const Dashboard = lazy(() => import(`./containers/Dashboard/Dashboard`));
 const SignIn = lazy(() => import(`./containers/Auth/SignIn`));
 const SignUp = lazy(() => import(`./containers/Auth/SignUp`));
+const EntityList = lazy(() => import(`./containers/Entity/EntityList`));
+const EntityDetails = lazy(() => import(`./containers/Entity/EntityDetails`));
 
 
 /** @author Stavros Labrinos [stalab at linuxmail.org] on 19/2/21.*/
@@ -25,6 +27,9 @@ const useStyles = makeStyles(theme => ({
         minHeight: '100vh'
     }
 }));
+
+//  change to request backend communication locally or from deployed vm
+export const localDeployment = true;
 
 function App() {
     const classes = useStyles();
@@ -43,10 +48,14 @@ function App() {
     const authRouting = token ?
         <Switch>
             <Route path="/auth/sign-out" component={Logout} />
+            <Route path="/entities/details/:id" render={ props => <EntityDetails token={token} {...props} /> } />
+            <Route path="/entities" render={ props => <EntityList {...props} /> } />
             <Route path="/" exact render={ props => <Dashboard {...props} /> } />
             <Redirect to="/" />
         </Switch> :
         <Switch>
+            <Route path="/entities/details/:id" render={ props => <EntityDetails token={token} {...props} /> } />
+            <Route path="/entities" render={ props => <EntityList {...props} /> } />
             <Route path="/auth/sign-in" render={props => <SignIn {...props} />} />
             <Route path="/auth/sign-up" render={props => <SignUp {...props} />} />
             <Redirect to="/auth/sign-in" />

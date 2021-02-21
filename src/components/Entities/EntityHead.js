@@ -12,16 +12,16 @@ import Avatar from '@material-ui/core/Avatar';
 const useStyles = makeStyles(theme => ({
     avDisplay: {
         color: theme.palette.primary.contrastText,
-        backgroundColor: theme.palette.primary.main
+        backgroundColor: theme.palette.secondary.main
     }
 }));
 
-export default function EntityHead() {
+export default function EntityHead({ name }) {
     const classes = useStyles();
 
     return (
         <CardContent>
-            <Avatar className={classes.avDisplay}>{getFirstLetters('jon doe')}</Avatar>
+            <Avatar className={classes.avDisplay}>{getFirstLetters(name)}</Avatar>
         </CardContent>
     );
 }

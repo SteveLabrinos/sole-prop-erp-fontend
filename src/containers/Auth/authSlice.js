@@ -56,9 +56,8 @@ const successLogin = async (response, dispatch) => {
     }
 }
 
-//  use dispatch to include thunk and make async actions
-export const authSignOut = token => async dispatch => {
-    const response = await fetch(`${baseURL}user/signout?tokenId=${token}`,
+const fetchSignOut = async (url, token, dispatch) => {
+    const response = await fetch(url,
         { method: 'DELETE' });
     if (!response.ok) {
         authLogoutError(response.status );
@@ -73,6 +72,12 @@ export const authSignOut = token => async dispatch => {
     }
 };
 
+//  use dispatch to include thunk and make async actions
+export const authSignOut = token => async dispatch => {
+    await fetchSignOut(`${baseURL}user/signout?tokenId=${token}`, token, dispatch)
+        .catch(error => console.log(error));
+};
+
 
 
 export const authSignIn = (username, password) => async dispatch => {
@@ -80,7 +85,8 @@ export const authSignIn = (username, password) => async dispatch => {
     const response = await
         fetch(`${baseURL}user/signin?username=${username}&password=${password}`);
 
-    await successLogin(response, dispatch);
+    await successLogin(response, dispatch)
+        .catch(error => console.log(error));
 };
 
 export const authSignUp = (firstname, lastname, username, email, password) => async dispatch => {
@@ -99,7 +105,8 @@ export const authSignUp = (firstname, lastname, username, email, password) => as
         body: JSON.stringify(authData)
     });
 
-    await successLogin(response, dispatch);
+    await successLogin(response, dispatch)
+        .catch(error => console.log(error));
 };
 
 export const authCheckState = () => dispatch => {
