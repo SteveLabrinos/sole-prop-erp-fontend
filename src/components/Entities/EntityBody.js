@@ -4,6 +4,11 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 
+/**
+ * @returns {JSX.Element}
+ * @author Stavros Labrinos [stalab at linuxmail.org] on 21/2/21.
+ */
+
 export default function EntityBody(props) {
     return(
         <CardContent>

@@ -6,7 +6,7 @@ const entitySlice = createSlice({
     initialState: {
         entities: [],
         loading: false,
-        entityError: null
+        entityError: null,
     },
     reducers: {
         fetchEntitiesStart: state => {
@@ -33,7 +33,7 @@ const entitySlice = createSlice({
         deleteEntity: (state, action) => {
             state.entities = state.entities
                 .filter(e => e.entity_id !== action.payload);
-        }
+        },
     }
 });
 

@@ -10,7 +10,7 @@ export const getFirstLetters = string => {
         .map(word => word.charAt(0).toUpperCase())
         .slice(0, 2)
         .join(' ');
-}
+};
 
 export const mapRole = role => {
     switch (role) {
@@ -18,4 +18,11 @@ export const mapRole = role => {
         case 'SUPPLIER': return 'Προμηθευτής';
         default: return 'Πελάτης & Προμήθευτής';
     }
-}
+};
+
+export const a11yProps = index => {
+    return {
+        id: `full-width-tab-${index}`,
+        'aria-controls': `full-width-tabpanel-${index}`,
+    };
+};

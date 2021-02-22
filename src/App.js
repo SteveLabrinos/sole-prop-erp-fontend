@@ -54,7 +54,6 @@ function App() {
             <Redirect to="/" />
         </Switch> :
         <Switch>
-            <Route path="/entities/details/:id" render={ props => <EntityDetails token={token} {...props} /> } />
             <Route path="/entities" render={ props => <EntityList {...props} /> } />
             <Route path="/auth/sign-in" render={props => <SignIn {...props} />} />
             <Route path="/auth/sign-up" render={props => <SignUp {...props} />} />
