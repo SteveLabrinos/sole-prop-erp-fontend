@@ -1,6 +1,6 @@
 import CardContent from '@material-ui/core/CardContent';
 import Fab from '@material-ui/core/Fab';
-import EditIcon from '@material-ui/icons/Edit'
+import EditIcon from '@material-ui/icons/Edit';
 import { green } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core';
 

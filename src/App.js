@@ -15,6 +15,7 @@ const SignIn = lazy(() => import(`./containers/Auth/SignIn`));
 const SignUp = lazy(() => import(`./containers/Auth/SignUp`));
 const EntityList = lazy(() => import(`./containers/Entity/EntityList`));
 const EntityDetails = lazy(() => import(`./containers/Entity/EntityDetails`));
+const EntityCreate = lazy(() => import(`./containers/Entity/EntityCreate`));
 
 
 /** @author Stavros Labrinos [stalab at linuxmail.org] on 19/2/21.*/
@@ -48,6 +49,7 @@ function App() {
     const authRouting = token ?
         <Switch>
             <Route path="/auth/sign-out" component={Logout} />
+            <Route path="/entities/new" render={ props => <EntityCreate token={token} {...props} /> } />
             <Route path="/entities/details/:id" render={ props => <EntityDetails token={token} {...props} /> } />
             <Route path="/entities" render={ props => <EntityList {...props} /> } />
             <Route path="/" exact render={ props => <Dashboard {...props} /> } />

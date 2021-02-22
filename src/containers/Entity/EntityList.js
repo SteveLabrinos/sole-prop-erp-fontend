@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { entitiesSelector, fetchEntitiesCollection } from './entitySlice';
 import { authTokenSelector } from '../Auth/authSlice';
@@ -41,10 +42,11 @@ export default function EntityList() {
     //  hook const
     const classes = useStyles();
     const dispatch = useDispatch();
+    const history = useHistory();
 
     //  state selectors
     const isAuth = useSelector(authTokenSelector);
-    const { entities, loading, entityError } = useSelector(entitiesSelector);
+    const { entities, loading } = useSelector(entitiesSelector);
 
     //  async dispatch to fetch entities
     const onFetchEntities = useCallback(() => {
@@ -59,6 +61,10 @@ export default function EntityList() {
             setCollectionEmpty(false);
         }
     }, [entities.length, onFetchEntities]);
+
+    const handleCreateEntity = () => {
+        history.push(`entities/new`);
+    }
 
     //  check for returned empty array
     const [collectionEmpty, setCollectionEmpty] = useState(false);
@@ -90,7 +96,8 @@ export default function EntityList() {
             <Cockpit title="Συναλλασόμενοι" />
             <Fab color="primary"
                  className={classes.fab}
-                 aria-label="add">
+                 aria-label="add"
+                 onClick={handleCreateEntity} >
                 <AddIcon />
             </Fab>
             <Grid container spacing={2}

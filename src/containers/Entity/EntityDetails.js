@@ -64,13 +64,14 @@ export default function EntityDetails(props) {
         } else {
             const data = await response.json();
             setEntity(data);
+            setLoading(false);
+            console.log(data);
         }
     }, [token, params.id]);
 
     useEffect(() => {
         if (!entity && token) {
             onFetchEntity().catch(error => console.log(error));
-            setLoading(false);
         }
     }, [token, entity, onFetchEntity]);
 
@@ -113,7 +114,7 @@ export default function EntityDetails(props) {
                 onChangeIndex={handleChangeIndex}
                 style={{ marginBottom: '2rem' }}
             >
-                <TabPanel value={value} index={0} dir={theme.direction}>
+                <TabPanel component="div" value={value} index={0} dir={theme.direction}>
                     <BankAccounts accounts={entity.bankAccountList} />
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
@@ -199,7 +200,7 @@ export default function EntityDetails(props) {
                     </Grid>
                 </Grid>
                 {tabs}
-            </React.Fragment> : <LoadingProgress />
+            </React.Fragment> : <div>Δεν βρέθηκαν δεδομένα</div>
 
     return (
         <React.Fragment>
