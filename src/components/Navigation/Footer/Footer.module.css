@@ -1,0 +1,22 @@
+.Footer {
+    padding-top: 1rem;
+    padding-bottom: 1.5rem;
+    background-color: #282c34;
+    border-top: 0;
+    box-sizing: border-box;
+    color: white;
+    text-align: center;
+    margin-top: auto;
+}
+
+.Footer .Copyright {
+    margin-top: .4rem;
+    font-size: .8rem;
+}
+
+@media (max-width: 500px) {
+    .Footer {
+        padding-top: 1.4rem;
+        padding-bottom: 2rem;
+    }
+}
