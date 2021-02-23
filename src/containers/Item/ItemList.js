@@ -1,3 +1,9 @@
+import { makeStyles } from '@material-ui/core/styles';
+import { Redirect } from 'react-router-dom';
+import React, { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { fetchItemCollection, itemSelector } from './itemSlice';
 import Table from '@material-ui/core/Table';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableBody from '@material-ui/core/TableBody';
@@ -6,15 +12,12 @@ import TableHead from '@material-ui/core/TableHead';
 import TableCell from '@material-ui/core/TableCell';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core';
-import itemListJson from '../../assets/statics/itemList.json';
-import { makeStyles } from '@material-ui/core/styles';
-import { Redirect } from 'react-router-dom';
-import React from 'react';
 import LoadingProgress from '../../UI/LoadingProgress/LoadingProgress';
 import Cockpit from '../../UI/Cockpit/Cockpit';
 import EditIcon from '@material-ui/icons/Edit';
 import Fab from '@material-ui/core/Fab';
-import {green} from "@material-ui/core/colors";
+import { green } from '@material-ui/core/colors';
+import AddIcon from '@material-ui/icons/Add';
 
 
 /**
@@ -50,6 +53,10 @@ const useStyles = makeStyles(theme => ({
             marginTop: theme.spacing(2),
         }
     },
+    fab: {
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
+    },
     fabGreen: {
         color: theme.palette.common.white,
         backgroundColor: green[500],
@@ -63,14 +70,23 @@ const useStyles = makeStyles(theme => ({
 
 export default function ItemList({ token }) {
     const classes = useStyles();
+    const dispatch = useDispatch();
 
-    //  temp
-    const loading = false;
+    const { loading, items } = useSelector(itemSelector);
+
+    //  async dispatch to fetch entities
+    const onFetchItems = useCallback(() => {
+        dispatch(fetchItemCollection(token));
+    }, [dispatch, token]);
+
+    //  apply the entities on the view
+    useEffect(() => {
+        if (items.length === 0) {
+            onFetchItems();
+        }
+    }, [items.length, onFetchItems]);
 
     const authRedirect = !token? <Redirect to="auth/sign-in" /> : null;
-
-    //  static data
-    const itemList = Object.values(itemListJson);
 
     const displayItemList = loading ?
         <LoadingProgress /> :
@@ -87,7 +103,7 @@ export default function ItemList({ token }) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {itemList.map(item => (
+                    {items.map(item => (
                         <StyledTableRow key={item.item_id}>
                             <TableCell component="th" scope="row">
                                 {item.description}
@@ -122,6 +138,12 @@ export default function ItemList({ token }) {
         <React.Fragment>
             {authRedirect}
             <Cockpit title="Υπηρεσίες" />
+            <Fab color="primary"
+                 className={classes.fab}
+                 aria-label="add"
+                 onClick={() => alert('crete item')} >
+                <AddIcon />
+            </Fab>
             {displayItemList}
         </React.Fragment>
     );
