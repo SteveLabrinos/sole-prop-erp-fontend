@@ -18,6 +18,9 @@ import PhoneIcon from '@material-ui/icons/Phone';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+import BusinessIcon from '@material-ui/icons/Business';
+import Representatives from '../../components/Representatives/Representatives';
 import SwipeableViews from 'react-swipeable-views';
 
 /**
@@ -65,7 +68,7 @@ export default function EntityDetails(props) {
             const data = await response.json();
             setEntity(data);
             setLoading(false);
-            console.log(data);
+            // console.log(data);
         }
     }, [token, params.id]);
 
@@ -75,7 +78,7 @@ export default function EntityDetails(props) {
         }
     }, [token, entity, onFetchEntity]);
 
-    const [value, setValue] = useState(1);
+    const [value, setValue] = useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -102,10 +105,12 @@ export default function EntityDetails(props) {
                     <Tab
                         label="Τραπεζικοί Λογαριασμοί"
                         className={classes.tabText}
-                        {...a11yProps(0)} />
-                    <Tab label="Εκπρόσωποι Εταιρείας"
-                         className={classes.tabText}
-                         {...a11yProps(1)} />
+                        {...a11yProps(1)} />
+                    {entity.type === 'COMPANY' ?
+                        <Tab label="Εκπρόσωποι Εταιρείας"
+                             className={classes.tabText}
+                             {...a11yProps(0)} /> : null
+                    }
                 </Tabs>
             </AppBar>
             <SwipeableViews
@@ -121,10 +126,14 @@ export default function EntityDetails(props) {
                             Δεν έχουν καταχωρηθεί τραπεζικοί λογαριασμοί για τον συναλλασόμενο
                         </Typography>
                     }
-
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
-                    Υπάλλοι Εταιρείας - Εφόσον πρόκειται για εταιρεία
+                    {entity.representativeList ?
+                        <Representatives repList={entity.representativeList} /> :
+                        <Typography variant="h6" component="span" color="secondary">
+                            Δεν έχουν καταχωρηθεί εκπρόσωποι για την εταιρεία
+                        </Typography>
+                    }
                 </TabPanel>
             </SwipeableViews>
         </div> : null;
@@ -134,7 +143,15 @@ export default function EntityDetails(props) {
         <LoadingProgress /> :
         entity ?
             <React.Fragment>
-                <Typography variant="h3" component="h2" color="primary" align="center">
+                <Typography variant="h3"
+                            component="h2"
+                            color="primary"
+                            style={{ justifyContent: 'center' }}
+                            className={classes.wrapper} >
+                    {entity.type === 'COMPANY' ?
+                        <BusinessIcon fontSize="inherit" /> :
+                        <PermIdentityIcon fontSize="inherit" />
+                    }
                     {entity.name}
                 </Typography>
                 <Grid container alignItems="center" spacing={3}
