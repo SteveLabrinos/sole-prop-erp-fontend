@@ -50,7 +50,7 @@ export default function Navbar(props) {
     const classes = useStyles();
     return (
         <Fragment>
-            <AppBar position="sticky" id="back-to-top-anchor">
+            <AppBar position="sticky">
                 <Toolbar className={classes.toolbar} >
                     <CssBaseline />
                      <Grid container spacing={2} justify="space-between" alignItems="center">

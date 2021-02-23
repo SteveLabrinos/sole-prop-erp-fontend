@@ -115,7 +115,13 @@ export default function EntityDetails(props) {
                 style={{ marginBottom: '2rem' }}
             >
                 <TabPanel component="div" value={value} index={0} dir={theme.direction}>
-                    <BankAccounts accounts={entity.bankAccountList} />
+                    {entity.bankAccountList ?
+                        <BankAccounts accounts={entity.bankAccountList} /> :
+                        <Typography variant="h6" component="span" color="secondary">
+                            Δεν έχουν καταχωρηθεί τραπεζικοί λογαριασμοί για τον συναλλασόμενο
+                        </Typography>
+                    }
+
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
                     Υπάλλοι Εταιρείας - Εφόσον πρόκειται για εταιρεία
@@ -175,7 +181,7 @@ export default function EntityDetails(props) {
                         </Grid>
                         <Grid item xs={6}>
                             <Typography variant="subtitle1" component="p">
-                                {entity.taxOffice.code}
+                                {entity.taxOffice.name}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -194,7 +200,7 @@ export default function EntityDetails(props) {
                         </Grid>
                         <Grid item xs={6}>
                             <Typography variant="subtitle1" component="p">
-                                {`${entity.address.city} / ${entity.address.country}`}
+                                {`${entity.address.city} / ${entity.address.countryName}`}
                             </Typography>
                         </Grid>
                     </Grid>

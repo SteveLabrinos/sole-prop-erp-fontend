@@ -1,0 +1,266 @@
+[
+  {
+    "item_id": 26,
+    "type_code": "Irreconcilable Differences",
+    "description": "Destruction of Left Tympanic Membrane, Percutaneous Endoscopic Approach",
+    "measurement_code": "Μέτρα",
+    "date_created": "2020-03-20",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 7,
+    "type_code": "Talk Radio",
+    "description": "Drainage of Right External Iliac Vein with Drainage Device, Open Approach",
+    "measurement_code": "Μέτρα",
+    "date_created": "2020-12-04",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 11,
+    "type_code": "The Affairs of Martha",
+    "description": "Inspection of Left Tarsal Joint, External Approach",
+    "measurement_code": "Μέτρα",
+    "date_created": "2020-09-01",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 15,
+    "type_code": "11:14",
+    "description": "Insertion of Hybrid External Fixation Device into Right Upper Femur, Open Approach",
+    "measurement_code": "Μέτρα",
+    "date_created": "2020-05-11",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 28,
+    "type_code": "Hotel",
+    "description": "Restriction of Right Middle Lobe Bronchus with Intraluminal Device, Open Approach",
+    "measurement_code": "Μέτρα",
+    "date_created": "2020-09-20",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 17,
+    "type_code": "Little Murders",
+    "description": "Reposition Facial Muscle, Percutaneous Endoscopic Approach",
+    "measurement_code": "Τεμάχιο",
+    "date_created": "2020-04-26",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 1,
+    "type_code": "Replicant",
+    "description": "Restriction of Right Ulnar Artery with Extraluminal Device, Percutaneous Endoscopic Approach",
+    "measurement_code": "Κιλά",
+    "date_created": "2020-09-28",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 10,
+    "type_code": "Unhook the Stars",
+    "description": "Dilation of Right Common Iliac Vein with Intraluminal Device, Percutaneous Approach",
+    "measurement_code": "Κιλά",
+    "date_created": "2020-06-17",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 2,
+    "type_code": "Ed Wood",
+    "description": "Insertion of Infusion Device into Left Renal Artery, Percutaneous Approach",
+    "measurement_code": "Κιλά",
+    "date_created": "2020-12-28",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 13,
+    "type_code": "I Love You to Death",
+    "description": null,
+    "measurement_code": "Κιλά",
+    "date_created": "2020-09-20",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 18,
+    "type_code": "Lords of Flatbush, The",
+    "description": "Removal of Infusion Device from Left Tarsal Joint, Open Approach",
+    "measurement_code": "Κιλά",
+    "date_created": "2020-03-01",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 29,
+    "type_code": "Slaves to the Underground",
+    "description": "Drainage of Left Abdomen Bursa and Ligament with Drainage Device, Open Approach",
+    "measurement_code": "Κιλά",
+    "date_created": "2020-11-15",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 30,
+    "type_code": "Rebecca of Sunnybrook Farm",
+    "description": "Supplement Left Occipital Bone with Synthetic Substitute, Percutaneous Approach",
+    "measurement_code": "Κιλά",
+    "date_created": "2020-04-06",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 20,
+    "type_code": "The 39 Steps",
+    "description": "Transfer Sciatic Nerve to Femoral Nerve, Open Approach",
+    "measurement_code": "Τεμάχιο",
+    "date_created": "2020-12-23",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 23,
+    "type_code": "Soup to Nuts",
+    "description": "Drainage of Left Hip Joint, Open Approach, Diagnostic",
+    "measurement_code": "Τεμάχιο",
+    "date_created": "2020-10-21",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 5,
+    "type_code": "He Walked by Night",
+    "description": "Destruction of Left External Ear, Open Approach",
+    "measurement_code": "Τεμάχιο",
+    "date_created": "2020-04-02",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 9,
+    "type_code": "Love Story 2050",
+    "description": "Anatomical Regions, General, Reattachment",
+    "measurement_code": "Τεμάχιο",
+    "date_created": "2021-02-10",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 12,
+    "type_code": "Canyons, The",
+    "description": null,
+    "measurement_code": "Τεμάχιο",
+    "date_created": "2020-03-17",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 16,
+    "type_code": "Make the Yuletide Gay",
+    "description": "Dilation of Right Internal Carotid Artery with Four or More Intraluminal Devices, Percutaneous Endoscopic Approach",
+    "measurement_code": "Τεμάχιο",
+    "date_created": "2020-11-04",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 31,
+    "type_code": "Addams Family, The",
+    "description": "Extirpation of Matter from Pharynx, Via Natural or Artificial Opening Endoscopic",
+    "measurement_code": "Τεμάχιο",
+    "date_created": "2020-10-19",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 32,
+    "type_code": "Batman",
+    "description": "Excision of Left Rib, Open Approach, Diagnostic",
+    "measurement_code": "Τεμάχιο",
+    "date_created": "2020-04-28",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 6,
+    "type_code": "Freedomland",
+    "description": "Plaque Radiation of Larynx",
+    "measurement_code": "Εβδομάδα",
+    "date_created": "2020-05-20",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 8,
+    "type_code": "800 Bullets (800 Balas)",
+    "description": "Revision of Nonautologous Tissue Substitute in Left Lower Femur, Open Approach",
+    "measurement_code": "Εβδομάδα",
+    "date_created": "2020-07-12",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 19,
+    "type_code": "Good Girl, The",
+    "description": "Dilation of Right External Iliac Artery with Two Drug-eluting Intraluminal Devices, Percutaneous Approach",
+    "measurement_code": "Εβδομάδα",
+    "date_created": "2020-08-10",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 22,
+    "type_code": "Bridge, The",
+    "description": "Bypass Ileum to Anus with Synthetic Substitute, Percutaneous Endoscopic Approach",
+    "measurement_code": "Εβδομάδα",
+    "date_created": "2020-09-20",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 21,
+    "type_code": "Her Alibi",
+    "description": null,
+    "measurement_code": "Εβδομάδα",
+    "date_created": "2020-07-24",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 25,
+    "type_code": "Wish You Were Here",
+    "description": "Supplement Right Lower Leg Tendon with Synthetic Substitute, Open Approach",
+    "measurement_code": "Εβδομάδα",
+    "date_created": "2021-01-06",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 3,
+    "type_code": "ComDads (les Compères)",
+    "description": "Occlusion of Right Uterine Artery, Open Approach",
+    "measurement_code": "Μήνας",
+    "date_created": "2020-06-14",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 27,
+    "type_code": "Island, The",
+    "description": null,
+    "measurement_code": "Μήνας",
+    "date_created": "2020-03-07",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 4,
+    "type_code": "Collapse",
+    "description": null,
+    "measurement_code": "Μήνας",
+    "date_created": "2021-02-06",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 14,
+    "type_code": "Hiding Cot (Piilopirtti)",
+    "description": "High Dose Rate (HDR) Brachytherapy of Bladder using Palladium 103 (Pd-103)",
+    "measurement_code": "Μήνας",
+    "date_created": "2020-12-27",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 24,
+    "type_code": "Shadowing the Third Man",
+    "description": "Transfer Abducens Nerve to Abducens Nerve, Percutaneous Endoscopic Approach",
+    "measurement_code": "Μήνας",
+    "date_created": "2020-07-28",
+    "date_first_sold": null
+  },
+  {
+    "item_id": 33,
+    "type_code": "Page Eight",
+    "description": "High Dose Rate (HDR) Brachytherapy of Ear using Cesium 137 (Cs-137)",
+    "measurement_code": "Μήνας",
+    "date_created": "2020-06-16",
+    "date_first_sold": null
+  }
+]
