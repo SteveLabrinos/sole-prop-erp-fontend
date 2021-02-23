@@ -20,6 +20,14 @@ export const mapRole = role => {
     }
 };
 
+export const mapCodeRole = role => {
+    switch (role) {
+        case 'CUSTOMER': return 'C';
+        case 'SUPPLIER': return 'S';
+        default: return 'B';
+    }
+};
+
 export const a11yProps = index => {
     return {
         id: `full-width-tab-${index}`,

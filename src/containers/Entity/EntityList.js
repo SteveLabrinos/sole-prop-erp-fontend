@@ -66,6 +66,10 @@ export default function EntityList() {
         history.push(`entities/new`);
     }
 
+    const handleUpdateEntity = id => {
+        history.push(`entities/update/${id}`);
+    }
+
     //  check for returned empty array
     const [collectionEmpty, setCollectionEmpty] = useState(false);
 
@@ -78,7 +82,7 @@ export default function EntityList() {
                 return (
                     <Grid item sx={12} key={entity.id}
                           className={classes.entityContainer}>
-                        <Entity {...entity} />
+                        <Entity {...entity} clicked={handleUpdateEntity} />
                     </Grid>
                 );
             }) :

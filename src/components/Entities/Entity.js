@@ -32,7 +32,7 @@ export default function Entity(props) {
                         </CardActionArea>
                     </Grid>
                 <Grid item xs={2}>
-                    <EntityButtons />
+                    <EntityButtons id={props.id} updateClicked={props.clicked} />
                 </Grid>
             </Grid>
         </Card>

@@ -19,11 +19,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function EntityButtons() {
+export default function EntityButtons({ id, updateClicked }) {
     const classes = useStyles();
     return (
         <CardContent className={classes.cardContent}>
-            <Fab aria-label="update" className={classes.fabGreen} size="small">
+            <Fab aria-label="update"
+                 onClick={() => updateClicked(id)}
+                 className={classes.fabGreen}
+                 size="small">
                 <EditIcon />
             </Fab>
         </CardContent>

@@ -1,4 +1,4 @@
-import { InputLabel, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import React  from 'react';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -7,6 +7,14 @@ import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
+import InputLabel from '@material-ui/core/InputLabel'
+
+
+/**
+ * @returns {JSX.Element}
+ * @author Stavros Labrinos [stalab at linuxmail.org] on 21/2/21.
+ */
+
 
 const useStyles = makeStyles(theme => ({
     formControl: {
@@ -31,6 +39,16 @@ const useStyles = makeStyles(theme => ({
             backgroundColor: green[600],
         }
     },
+    error: {
+        letterSpacing: 1.2,
+        marginTop: theme.spacing(2),
+        textTransform: 'capitalize',
+        backgroundColor: theme.palette.error.main,
+        color: theme.palette.primary.contrastText,
+        '&:hover': {
+            backgroundColor: theme.palette.error.dark,
+        }
+    }
 }));
 
 export default function EntityForm(props) {
@@ -49,6 +67,7 @@ export default function EntityForm(props) {
                         name="name"
                         placeholder="Συμπληρώστε Όνομα"
                         autoComplete="name"
+                        value={values.name}
                         autoFocus
                         onChange={change('name')}
                     />
@@ -79,6 +98,7 @@ export default function EntityForm(props) {
                         id="phone"
                         label="Τηλέφωνο"
                         name="phone"
+                        value={values.phone}
                         placeholder="Συμπληρώστε Τηλέφωνο"
                         onChange={change('phoneNumber')}
                     />
@@ -89,6 +109,7 @@ export default function EntityForm(props) {
                         id="website"
                         label="Ιστότοπος"
                         name="website"
+                        value={values.website}
                         placeholder="Συμπληρώστε Ιστότοπο"
                         onChange={change('website')}
                     />
@@ -99,6 +120,7 @@ export default function EntityForm(props) {
                         id="street"
                         label="Οδός"
                         name="street"
+                        value={values.street}
                         autoComplete="street"
                         placeholder="Συμπληρώστε Οδό"
                         onChange={change('street')}
@@ -110,6 +132,7 @@ export default function EntityForm(props) {
                         id="streetNumber"
                         label="Αριθμός"
                         name="streetNumber"
+                        value={values.streetNumber}
                         autoComplete="streetNumber"
                         placeholder="Αριθμό"
                         onChange={change('streetNumber')}
@@ -121,6 +144,7 @@ export default function EntityForm(props) {
                         id="area"
                         label="Περιοχή"
                         name="area"
+                        value={values.area}
                         autoComplete="area"
                         placeholder="Συμπληρώστε Περιοχή"
                         onChange={change('area')}
@@ -132,6 +156,7 @@ export default function EntityForm(props) {
                         id="city"
                         label="Πόλη"
                         name="city"
+                        value={values.city}
                         autoComplete="city"
                         placeholder="Συμπληρώστε Πόλη"
                         onChange={change('city')}
@@ -163,6 +188,7 @@ export default function EntityForm(props) {
                         id="taxId"
                         label="ΑΦΜ"
                         name="taxId"
+                        value={values.taxId}
                         placeholder="Συμπληρώστε ΑΦΜ"
                         onChange={change('taxId')}
                     />
@@ -192,24 +218,25 @@ export default function EntityForm(props) {
                         id="activity"
                         label="Δραστηριότητα"
                         name="activity"
+                        value={values.activity}
                         placeholder="Συμπληρώστε Δραστηριότητα"
                         onChange={change('activity')}
                     />
                 </Grid>
             </Grid>
-            <Grid container justify="center">
+            <Grid container justify={entity ? 'space-between' : 'center'}>
                 <Grid item xs={12} md={6} lg={4}>
                     {entity ?
-                        <Button
-                            type="submit"
-                            fullWidth
-                            size="large"
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                        >
-                            Ενημέρωση Στοιχείων
-                        </Button> :
+                            <Button
+                                type="submit"
+                                fullWidth
+                                size="large"
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                            >
+                                Ενημέρωση Στοιχείων
+                            </Button> :
                         <Button
                             type="submit"
                             fullWidth
@@ -221,6 +248,19 @@ export default function EntityForm(props) {
                         </Button>
                     }
                 </Grid>
+                {entity ?
+                    <Grid item xs={12} md={3} lg={4}>
+                        <Button
+                            fullWidth
+                            size="large"
+                            variant="contained"
+                            onClick={() => alert('delete ' + entity.id + ' to be added')}
+                            className={classes.error}
+                        >
+                            Διαγραφή Εγγραφής
+                        </Button>
+                    </Grid> : null
+                }
             </Grid>
         </form>
     );

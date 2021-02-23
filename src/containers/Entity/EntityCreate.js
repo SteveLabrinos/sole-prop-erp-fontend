@@ -1,18 +1,23 @@
 import { makeStyles } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useCallback, useEffect, useState } from "react";
-import { addNewEntity, entitiesSelector } from './entitySlice';
+import React, { useCallback, useEffect, useState } from 'react';
+import { addNewEntity, entitiesSelector, updateExistingEntity, clearEntityError } from './entitySlice';
 import { Redirect, useParams } from 'react-router';
-import { baseURL } from '../../shared/utility';
+import { baseURL, mapCodeRole } from '../../shared/utility';
 import Typography from '@material-ui/core/Typography';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import Avatar from '@material-ui/core/Avatar';
 import LoadingProgress from '../../UI/LoadingProgress/LoadingProgress';
 import Container from '@material-ui/core/Container';
 import EditIcon from '@material-ui/icons/Edit';
+import AddIcon from '@material-ui/icons/Add';
+import { green } from '@material-ui/core/colors';
 import EntityForm from './EntityForm';
 
-
+/**
+ * @returns {JSX.Element}
+ * @author Stavros Labrinos [stalab at linuxmail.org] on 21/2/21.
+ */
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -22,9 +27,13 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
         alignItems: 'center',
     },
-    avatar: {
+    avatarUpdate: {
         margin: theme.spacing(1),
         backgroundColor: theme.palette.primary.main,
+    },
+    avatarCreate: {
+        margin: theme.spacing(1),
+        backgroundColor: green[500],
     },
     link: {
         marginTop: theme.spacing(1),
@@ -51,6 +60,7 @@ export default function EntityCreate({ token }) {
         } else {
             const data = await response.json();
             setEntity(data);
+            populateFields(data);
         }
     }, [token, entityId]);
 
@@ -78,16 +88,40 @@ export default function EntityCreate({ token }) {
         website: ''
     });
 
+
     const handleChange = property => event => {
+        if (errorMsg) dispatch(clearEntityError());
         setValues({ ...values, [property]: event.target.value });
+    };
+
+    const populateFields = (entity) => {
+        setValues({
+            id: entity.id,
+            activity: entity.activity,
+            street: entity.address.street,
+            streetNumber: entity.address.streetNumber,
+            city: entity.address.city,
+            area: entity.address.area,
+            country: entity.address.country,
+            bankAccountList: entity.bankAccountList,
+            companyId: entity.companyId,
+            name: entity.name,
+            phoneNumber: entity.phoneNumber,
+            role: mapCodeRole(entity.role),
+            taxId: entity.taxId,
+            code: entity.taxOffice.code,
+            website: entity.website
+        });
     };
 
     const handleSubmitEntity = useCallback(event => {
         event.preventDefault();
         console.log('About to sent this data to the backend');
         console.log(values);
-        dispatch(addNewEntity(values, token));
-    }, [dispatch, values, token]);
+        entity ?
+            dispatch(updateExistingEntity(values, token)) :
+            dispatch(addNewEntity(values, token));
+    }, [entity, dispatch, values, token]);
 
     //  displaying the data
     const errorMsg = entityError ?
@@ -99,13 +133,18 @@ export default function EntityCreate({ token }) {
     const authRedirect = !token ?
         <Redirect to="/auth/sign-in"/> : null;
 
-
+    console.log(values);
     return (
         <Container component="main" maxWidth="lg">
             <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <EditIcon htmlColor="#fff"/>
-                </Avatar>
+                {entity ?
+                    <Avatar className={classes.avatarUpdate}>
+                        <EditIcon htmlColor="#fff"/>
+                    </Avatar> :
+                    <Avatar className={classes.avatarCreate}>
+                        <AddIcon htmlColor="#fff"/>
+                    </Avatar>
+                }
                 <Typography component="h1" variant="h5">
                     {entity ? 'Επεξεργασία Συναλλασόμενου' : 'Δημιουργία Συναλλασόμενου'}
                 </Typography>

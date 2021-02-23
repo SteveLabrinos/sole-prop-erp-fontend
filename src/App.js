@@ -50,6 +50,7 @@ function App() {
         <Switch>
             <Route path="/auth/sign-out" component={Logout} />
             <Route path="/entities/new" render={ props => <EntityCreate token={token} {...props} /> } />
+            <Route path="/entities/update/:id" render={ props => <EntityCreate token={token} {...props} /> } />
             <Route path="/entities/details/:id" render={ props => <EntityDetails token={token} {...props} /> } />
             <Route path="/entities" render={ props => <EntityList {...props} /> } />
             <Route path="/" exact render={ props => <Dashboard {...props} /> } />

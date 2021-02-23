@@ -42,12 +42,15 @@ const entitySlice = createSlice({
             state.entities = state.entities
                 .filter(e => e.entity_id !== action.payload);
         },
+        clearEntityError: state => {
+            state.entityError = null;
+        },
     }
 });
 
 
-const { fetchEntitiesStart, fetchEntitiesSuccess, fetchEntitiesFail,
-    addEntityFail, addEntityStart,
+export const { fetchEntitiesStart, fetchEntitiesSuccess, fetchEntitiesFail,
+    addEntityFail, addEntityStart, clearEntityError,
     addEntity, updateEntity, deleteEntity } = entitySlice.actions;
 
 //  async actions with thunk
@@ -75,7 +78,26 @@ export const addNewEntity = (entity, token) => dispatch => {
         });
 
         response.ok ?
+            //  maybe change with new id and entity
             dispatch(addEntity(await response.json())) :
+            dispatch(addEntityFail(response.status));
+    }
+
+    postEntity().catch(error => console.log(error));
+}
+
+export const updateExistingEntity = (entity, token) => dispatch => {
+    const postEntity = async () => {
+        dispatch(addEntityStart());
+
+        const response = await fetch(`${baseURL}entity/id/${entity.id}?tokenId=${token}`, {
+            method: 'POST',
+            body: JSON.stringify(entity)
+        });
+
+        response.ok ?
+            //  maybe change with backend data response
+            dispatch(updateEntity(entity)) :
             dispatch(addEntityFail(response.status));
     }
 

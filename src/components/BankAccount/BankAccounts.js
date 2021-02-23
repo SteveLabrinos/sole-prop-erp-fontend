@@ -16,8 +16,8 @@ export default function BackAccount({ accounts }) {
         <TableContainer>
             <Table>
                 <TableBody>
-                    {accounts.map(account => (
-                        <TableRow key={account.iban}>
+                    {accounts.map((account, index) => (
+                        <TableRow key={index}>
                             <TableCell component="th" scope="row">
                                 {account.bankName}
                             </TableCell>
