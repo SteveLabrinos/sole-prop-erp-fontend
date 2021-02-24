@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { baseURL } from '../../shared/utility';
+// import { baseURL } from '../../shared/utility';
 import itemListJson from "../../assets/statics/itemList.json";
 
 const itemSlice = createSlice({
@@ -8,11 +8,14 @@ const itemSlice = createSlice({
         loading: false,
         items: [],
         item: null,
-        itemError: null
+        itemError: null,
+        created: false
     },
     reducers: {
         fetchItemsStart: state => {
             state.loading = true;
+            state.reset = false;
+            state.created = false;
         },
         addItemStart: state => {
             state.loading = true;
@@ -29,38 +32,40 @@ const itemSlice = createSlice({
             state.entityError = action.payload;
             state.loading = false;
         },
-        addItem: (state, action) => {
-            state.items.concat(action.payload);
+        addItemSuccess: state => {
             state.loading = false;
+            state.created = true;
         },
         updateItem: (state, action) => {
             state.items.map(item => {
-                return item.id === action.payload.id ?
+                return item.item_id === action.payload.item_id ?
                     action.payload :
                     item;
             });
         },
         deleteItem: (state, action) => {
             state.items = state.items
-                .filter(i => i.id !== action.payload);
+                .filter(i => i.item_id !== action.payload);
         },
-        clearEntityError: state => {
+        clearItemError: state => {
             state.itemError = null;
         },
         fetchItem: (state, action) => {
-            const item = state.items.filter(i => i.id === action.payload);
+            const item = state.items.filter(i => i.item_id === action.payload);
             state.item = Object.values(item);
         }
     }
 });
 
-const { fetchItemsStart, fetchItemsSuccess, fetchItemsFail } = itemSlice.actions;
+export const { fetchItemsStart, fetchItemsSuccess, fetchItemsFail,
+    clearItemError, fetchItem, addItemStart, addItemSuccess,
+    addItemFail, updateItem } = itemSlice.actions;
 
 //  async actions using thunk and logic actions that dispatch many actions
 export const fetchItemCollection = token => dispatch => {
-    const fetchItem = async () => {
-        //  async code here when its applied from the backend
-    };
+    // const fetchItem = async () => {
+    //     //  async code here when its applied from the backend
+    // };
     //  temp solution of static data
     dispatch(fetchItemsStart());
     const itemList = Object.values(itemListJson);
@@ -69,6 +74,23 @@ export const fetchItemCollection = token => dispatch => {
         dispatch(fetchItemsFail('error on fetching items'));
 };
 
+export const createNewItem = (item, token) => dispatch => {
+    //  function to sent data to the db
+    dispatch(addItemStart());
+    //  the async function here
+    item ?
+        dispatch(addItemSuccess()) :
+        dispatch(addItemFail('error adding the item'));
+};
+
+export const updateExistingItem = (item, token) => dispatch => {
+    //  function to sent data to the db
+    dispatch(addItemStart());
+    //  the async function here
+    item ?
+        dispatch(updateItem(item)) :
+        dispatch(addItemFail('error updating the item'));
+};
 
 
 //  selectors

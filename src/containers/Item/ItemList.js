@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -71,8 +71,9 @@ const useStyles = makeStyles(theme => ({
 export default function ItemList({ token }) {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const history = useHistory();
 
-    const { loading, items } = useSelector(itemSelector);
+    const { loading, items, created } = useSelector(itemSelector);
 
     //  async dispatch to fetch entities
     const onFetchItems = useCallback(() => {
@@ -81,10 +82,14 @@ export default function ItemList({ token }) {
 
     //  apply the entities on the view
     useEffect(() => {
-        if (items.length === 0) {
+        if (items.length === 0 || created) {
             onFetchItems();
         }
-    }, [items.length, onFetchItems]);
+    }, [items.length, onFetchItems, created]);
+
+    const handleCreateEntity = () => {
+        history.push(`items/new`);
+    }
 
     const authRedirect = !token? <Redirect to="auth/sign-in" /> : null;
 
@@ -141,7 +146,7 @@ export default function ItemList({ token }) {
             <Fab color="primary"
                  className={classes.fab}
                  aria-label="add"
-                 onClick={() => alert('crete item')} >
+                 onClick={handleCreateEntity} >
                 <AddIcon />
             </Fab>
             {displayItemList}

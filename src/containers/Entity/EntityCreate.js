@@ -133,7 +133,6 @@ export default function EntityCreate({ token }) {
     const authRedirect = !token ?
         <Redirect to="/auth/sign-in"/> : null;
 
-    console.log(values);
     return (
         <Container component="main" maxWidth="lg">
             <div className={classes.paper}>
