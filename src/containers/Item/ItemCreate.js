@@ -5,7 +5,7 @@ import { Redirect, useParams } from 'react-router';
 import { makeStyles } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import { itemSelector, clearItemError, fetchItem,
-    createNewItem, updateItem } from './itemSlice';
+    createNewItem, updateItem, clearItem } from './itemSlice';
 import Typography from '@material-ui/core/Typography';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import Avatar from '@material-ui/core/Avatar';
@@ -67,16 +67,20 @@ export default function ItemCreate({ token }) {
         event.preventDefault();
         console.log('About to sent this data to the backend');
         console.log(values);
-        item ?
-            //  updating the item
-            dispatch(updateItem(values, token)) :
-            //  inserting the item
+        if (item) {
+            dispatch(updateItem(values, token));
+            dispatch(clearItem());
+        } else {
             dispatch(createNewItem(values, token));
+        }
+
     }, [dispatch, item, token, values]);
 
     useEffect(() => {
         if (params.id && !item) {
             dispatch(fetchItem(params.id));
+
+        } else if (item) {
             populateFields(item);
         }
     }, [params.id, dispatch, item]);

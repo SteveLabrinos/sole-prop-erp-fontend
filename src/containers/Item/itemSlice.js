@@ -9,7 +9,21 @@ const itemSlice = createSlice({
         items: [],
         item: null,
         itemError: null,
-        created: false
+        created: false,
+        //  temp lists until they are provided from the backend
+        measurementCodes: [
+            { code: 'KG', value: 'Κιλά'},
+            { code: 'MR', value: 'Μέτρα'},
+            { code: 'YE', value: 'Χρόνος'},
+            { code: 'EA', value: 'Τεμάχιο'},
+            { code: 'WE', value: 'Εβδομάδα'},
+            { code: 'DA', value: 'Ημέρα'},
+            { code: 'MO', value: 'Μήνας'},
+        ],
+        itemType: [
+            { code: 'I', value: 'Υλικό'},
+            { code: 'S', value: 'Υπηρεσία'}
+        ]
     },
     reducers: {
         fetchItemsStart: state => {
@@ -51,15 +65,24 @@ const itemSlice = createSlice({
             state.itemError = null;
         },
         fetchItem: (state, action) => {
-            const item = state.items.filter(i => i.item_id === action.payload);
-            state.item = Object.values(item);
+            const item = state.items
+                .filter(i => i.item_id === Number.parseInt(action.payload))[0];
+            // get the codes from measurement and type of the item
+            item.measurement_code = state.measurementCodes
+                .filter(m => m.value === item.measurement_code)[0].code;
+            item.type_code = state.itemType
+                .filter(t => t.value === item.type_code)[0].code;
+            state.item = item;
+        },
+        clearItem: state => {
+            state.item = null;
         }
     }
 });
 
 export const { fetchItemsStart, fetchItemsSuccess, fetchItemsFail,
     clearItemError, fetchItem, addItemStart, addItemSuccess,
-    addItemFail, updateItem } = itemSlice.actions;
+    addItemFail, updateItem, clearItem } = itemSlice.actions;
 
 //  async actions using thunk and logic actions that dispatch many actions
 export const fetchItemCollection = token => dispatch => {

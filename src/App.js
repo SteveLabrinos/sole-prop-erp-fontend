@@ -55,6 +55,7 @@ function App() {
             <Route path="/entities/update/:id" render={ props => <EntityCreate token={token} {...props} /> } />
             <Route path="/entities/details/:id" render={ props => <EntityDetails token={token} {...props} /> } />
             <Route path="/entities" render={ props => <EntityList {...props} /> } />
+            <Route path="/items/update/:id" render={ props => <ItemCreate token={token} {...props} /> } />
             <Route path="/items/new" render={ props => <ItemCreate token={token} {...props} /> } />
             <Route path="/items" render={ props => <ItemList token={token} {...props} /> } />
             <Route path="/" exact render={ props => <Dashboard {...props} /> } />

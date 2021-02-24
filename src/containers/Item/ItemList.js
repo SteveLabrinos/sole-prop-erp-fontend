@@ -91,6 +91,10 @@ export default function ItemList({ token }) {
         history.push(`items/new`);
     }
 
+    const handleUpdateEntity = id => {
+        id ? history.push(`items/update/${id}`) : history.push(`items/new`);
+    };
+
     const authRedirect = !token? <Redirect to="auth/sign-in" /> : null;
 
     const displayItemList = loading ?
@@ -127,7 +131,7 @@ export default function ItemList({ token }) {
                             </TableCell>
                             <TableCell align="center">
                                 <Fab aria-label="update"
-                                     onClick={() => alert(item.item_id)}
+                                     onClick={() => handleUpdateEntity(item.item_id)}
                                      className={classes.fabGreen}
                                      size="small">
                                     <EditIcon />

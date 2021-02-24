@@ -57,7 +57,7 @@ export default function ItemForm(props) {
     return (
         <form className={classes.form} onSubmit={submit}>
             <Grid container spacing={3} justify="center">
-                <Grid item xs={12} sm={6} md={4} lg={3}>
+                <Grid item xs={12} sm={6} md={6} lg={6}>
                     <TextField
                         required
                         fullWidth
