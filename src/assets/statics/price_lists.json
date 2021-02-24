@@ -1,0 +1,32 @@
+[
+  {
+    "price_list_id": 23,
+    "description": "Reposition Right Radius with Ring External Fixation Device, Percutaneous Approach",
+    "date_created": "2020-03-16",
+    "status_code": 0,
+    "status_description": "Ενεργός",
+    "activity_util": "2021-06-19",
+    "entity_id": 9,
+    "entity": "Jazzy"
+  },
+  {
+    "price_list_id": 25,
+    "description": "Revision of Nonautologous Tissue Substitute in Lymphatic, Percutaneous Approach",
+    "date_created": "2020-01-08",
+    "status_code": 0,
+    "status_description": "Ενεργός",
+    "activity_util": "2021-05-31",
+    "entity_id": 60,
+    "entity": "Trudoo"
+  },
+  {
+    "price_list_id": 42,
+    "description": "Αρχικός Τιμοκατάλογος",
+    "date_created": "2021-02-20",
+    "status_code": 0,
+    "status_description": "Ενεργός",
+    "activity_util": null,
+    "entity_id": null,
+    "entity": null
+  }
+]
