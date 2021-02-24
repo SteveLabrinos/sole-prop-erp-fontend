@@ -19,6 +19,7 @@ const EntityCreate = lazy(() => import(`./containers/Entity/EntityCreate`));
 const ItemList = lazy(() => import(`./containers/Item/ItemList`));
 const ItemCreate = lazy(() => import(`./containers/Item/ItemCreate`));
 const PriceList = lazy(() => import(`./containers/PriceList/PriceList`));
+const PriceListCreate = lazy(() => import(`./containers/PriceList/PriceListUpdate`));
 
 
 /** @author Stavros Labrinos [stalab at linuxmail.org] on 19/2/21.*/
@@ -59,6 +60,7 @@ function App() {
             <Route path="/items/update/:id" render={ props => <ItemCreate token={token} {...props} /> } />
             <Route path="/items/new" render={ props => <ItemCreate token={token} {...props} /> } />
             <Route path="/items" render={ props => <ItemList token={token} {...props} /> } />
+            <Route path="/price-lists/new" render={ props => <PriceListCreate token={token} {...props} /> } />
             <Route path="/price-lists" render={ props => <PriceList token={token} {...props} /> } />
             <Route path="/" exact render={ props => <Dashboard {...props} /> } />
             <Redirect to="/" />

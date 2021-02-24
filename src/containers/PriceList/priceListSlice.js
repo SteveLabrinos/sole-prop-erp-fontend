@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 // import { baseURL } from '../../shared/utility';
-import priceListJson from "../../assets/statics/price_lists.json";
+import priceListJson from '../../assets/statics/price_lists.json';
+import priceListDetails from '../../assets/statics/masterPriceList.json';
 
 const priceList = createSlice({
     name: 'priceList',
@@ -50,14 +51,7 @@ const priceList = createSlice({
             state.priceListError = null;
         },
         fetchPriceList: (state, action) => {
-            const priceList = state.priceLists
-                .filter(pr => pr.price_list_id === Number.parseInt(action.payload))[0];
-            // get the codes from measurement and type of the item
-            // pric.measurement_code = state.measurementCodes
-            //     .filter(m => m.value === item.measurement_code)[0].code;
-            // item.type_code = state.itemType
-            //     .filter(t => t.value === item.type_code)[0].code;
-            state.priceList = priceList;
+            state.priceList = action.payload;
         },
         clearPriceList: state => {
             state.priceList = null;
@@ -82,23 +76,32 @@ export const fetchPriceListCollection = token => dispatch => {
         dispatch(fetchPriceListFail('error on fetching price lists'));
 };
 
-// export const createNewItem = (item, token) => dispatch => {
-//     //  function to sent data to the db
-//     dispatch(addItemStart());
-//     //  the async function here
-//     item ?
-//         dispatch(addItemSuccess()) :
-//         dispatch(addItemFail('error adding the item'));
-// };
-//
-// export const updateExistingItem = (item, token) => dispatch => {
-//     //  function to sent data to the db
-//     dispatch(addItemStart());
-//     //  the async function here
-//     item ?
-//         dispatch(updateItem(item)) :
-//         dispatch(addItemFail('error updating the item'));
-// };
+export const fetchExistingPriceList = (id, token) => dispatch => {
+    //  async code here when its applied from the backend
+
+    //  temp solution of static data
+    dispatch(fetchPriceListsStart());
+    console.log(priceListDetails);
+    //  to dispatch fetch price list
+};
+
+export const createPriceList = (item, token) => dispatch => {
+    //  function to sent data to the db
+    dispatch(addPriceListStart());
+    //  the async function here
+    item ?
+        dispatch(addPriceListSuccess()) :
+        dispatch(addPriceListFail('error adding the price list'));
+};
+
+export const updateExistingPriceList = (item, token) => dispatch => {
+    //  function to sent data to the db
+    dispatch(addPriceListStart());
+    //  the async function here
+    item ?
+        dispatch(updatePriceList(item)) :
+        dispatch(addPriceListFail('error updating the price list'));
+};
 
 
 //  selectors
