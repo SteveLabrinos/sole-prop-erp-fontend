@@ -11,6 +11,12 @@ const priceList = createSlice({
         priceList: null,
         priceListError: null,
         created: false,
+        itemList: [
+            {item_id: 1, description: 'Restriction of Right Ulnar Artery'},
+            {item_id: 13, description: 'Site Service'},
+            {item_id: 6, description: 'Plaque Radiation of Larynx'},
+            {item_id: 23, description: 'Reposition Right Radius with Ring External'},
+        ]
     },
     reducers: {
         fetchPriceListsStart: state => {

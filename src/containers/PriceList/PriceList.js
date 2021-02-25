@@ -142,7 +142,7 @@ export default function PriceList({ token }) {
     return (
         <React.Fragment>
             {authRedirect}
-            <Cockpit title="Υπηρεσίες" />
+            <Cockpit title="Τιμοκατάλογοι" />
             <Fab color="primary"
                  className={classes.fab}
                  aria-label="add"

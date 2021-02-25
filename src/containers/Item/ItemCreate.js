@@ -119,8 +119,8 @@ export default function ItemCreate({ token }) {
                     </Avatar>
                 }
                 <Typography component="h1" variant="h5">
-                    {item ? 'Επεξεργασία Συναλλασόμενου' :
-                        'Δημιουργία Συναλλασόμενου'
+                    {item ? 'Επεξεργασία Υπηρεσίας' :
+                        'Δημιουργία Υπηρεσίας'
                     }
                 </Typography>
                 {authRedirect}

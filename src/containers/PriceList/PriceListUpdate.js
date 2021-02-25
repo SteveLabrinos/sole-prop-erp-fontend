@@ -12,7 +12,7 @@ import Avatar from '@material-ui/core/Avatar';
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 import LoadingProgress from '../../UI/LoadingProgress/LoadingProgress';
-// import ItemForm from './ItemForm';
+import PriceListStepper from './PriceListStepper';
 import Container from '@material-ui/core/Container';
 
 
@@ -48,21 +48,33 @@ export default function PriceListUpdate({ token }) {
     const dispatch = useDispatch();
     const params = useParams();
 
-    const { loading, priceList, created, priceListError }  = useSelector(priceListSelector)
-
+    const { loading, priceList, created, priceListError } = useSelector(priceListSelector)
 
     const [values, setValues] = useState({
         price_list_id: null,
         description: '',
         date_created: '',
         status_code: '',
-        activity_util: '',
-        entity_id: ''
+        active_until: new Date()
+            .toISOString().replace(/T.*/, '')
+            .split('-').join('-'),
+        entity_id: '',
+        list_items: []
     });
+
+    const [itemListValues, setItemListValues] = useState({
+        item_id: '',
+        price: '',
+    });
+
+    const handleItemChange = property => event => {
+        setItemListValues({ ...itemListValues, [property]: event.target.value });
+    };
 
     const handleChange = property => event => {
         if (priceListError) dispatch(clearPriceListError());
         setValues({ ...values, [property]: event.target.value });
+        console.log(values);
     };
 
     const handleSubmitPriceList = useCallback(event => {
@@ -92,9 +104,10 @@ export default function PriceListUpdate({ token }) {
             price_list_id: priceList.item_id,
             description: priceList.type_code,
             date_created: priceList.description,
-            status_code: priceList.measurement_code,
-            activity_util: priceList.activity_util,
-            entity_id: priceList.entity_id
+            status_code: priceList.status_code,
+            active_until: priceList.active_until,
+            entity_id: priceList.entity_id,
+            list_items: priceList.list_items
         });
     };
 
@@ -123,19 +136,23 @@ export default function PriceListUpdate({ token }) {
                     </Avatar>
                 }
                 <Typography component="h1" variant="h5">
-                    {priceList ? 'Επεξεργασία Συναλλασόμενου' :
-                        'Δημιουργία Συναλλασόμενου'
+                    {priceList ? 'Επεξεργασία Τιμοκαταλόγου' :
+                        'Δημιουργία Τιμοκαταλόγου'
                     }
                 </Typography>
                 {authRedirect}
                 {createdRedirect}
                 {errorMsg}
                 {loading ?
-                    <LoadingProgress /> : <div>Price list form</div>
-                    // <ItemForm submit={handleSubmitItem}
-                    //           values={values}
-                    //           item={priceList}
-                    //           change={handleChange} />
+                    <LoadingProgress /> :
+                    <PriceListStepper submit={handleSubmitPriceList}
+                              values={values}
+                              setValues={setValues}
+                              priceList={priceList}
+                              itemListValues={itemListValues}
+                              setItemListValues={setItemListValues}
+                              itemListChange={handleItemChange}
+                              change={handleChange} />
                 }
             </div>
         </Container>
