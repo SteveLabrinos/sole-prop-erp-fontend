@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 
-import { entitiesSelector, fetchEntitiesCollection } from './entitySlice';
+import { entitiesSelector, fetchEntitiesCollection, clearCreated } from './entitySlice';
 import { authTokenSelector } from '../Auth/authSlice';
 import Cockpit from '../../UI/Cockpit/Cockpit';
 import LoadingProgress from '../../UI/LoadingProgress/LoadingProgress';
@@ -46,7 +46,7 @@ export default function EntityList() {
 
     //  state selectors
     const isAuth = useSelector(authTokenSelector);
-    const { entities, loading } = useSelector(entitiesSelector);
+    const { entities, loading, created } = useSelector(entitiesSelector);
 
     //  async dispatch to fetch entities
     const onFetchEntities = useCallback(() => {
@@ -63,10 +63,12 @@ export default function EntityList() {
     }, [entities.length, onFetchEntities]);
 
     const handleCreateEntity = () => {
+        if (created) dispatch(clearCreated());
         history.push(`entities/new`);
     }
 
     const handleUpdateEntity = id => {
+        if (created) dispatch(clearCreated());
         history.push(`entities/update/${id}`);
     }
 
