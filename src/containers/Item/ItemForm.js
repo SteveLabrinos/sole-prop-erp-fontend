@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function ItemForm(props) {
     const classes = useStyles();
-    const {values, submit, change, item } = props;
+    const {id, values, submit, change, item, itemTypes, measurementCodes } = props;
 
     return (
         <form className={classes.form} onSubmit={submit}>
@@ -79,14 +79,15 @@ export default function ItemForm(props) {
                             id="select-role"
                             required
                             fullWidth
-                            value={values.type_code}
-                            onChange={change('type_code')}
+                            value={values.typeCode}
+                            onChange={change('typeCode')}
                         >
                             <MenuItem value="">
                                 <em>Επιλέξτε</em>
                             </MenuItem>
-                            <MenuItem value={'I'}>Υλικό</MenuItem>
-                            <MenuItem value={'S'}>Υπηρεσία</MenuItem>
+                            {itemTypes.map(type => (
+                                <MenuItem  key={type.code} value={type.code}>{type.value}</MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -98,19 +99,17 @@ export default function ItemForm(props) {
                             id="select-role"
                             required
                             fullWidth
-                            value={values.measurement_code}
-                            onChange={change('measurement_code')}
+                            value={values.measurementCode}
+                            onChange={change('measurementCode')}
                         >
                             <MenuItem value="">
                                 <em>Επιλέξτε</em>
                             </MenuItem>
-                            <MenuItem value={'KG'}>Κιλά</MenuItem>
-                            <MenuItem value={'MR'}>Μέτρα</MenuItem>
-                            <MenuItem value={'EA'}>Τεμάχιο</MenuItem>
-                            <MenuItem value={'WE'}>Εβδομάδα</MenuItem>
-                            <MenuItem value={'DA'}>Ημέρα</MenuItem>
-                            <MenuItem value={'MO'}>Μήνας</MenuItem>
-                            <MenuItem value={'YE'}>Χρόνος</MenuItem>
+                            {measurementCodes.map(measurement => (
+                                <MenuItem key={measurement.code} value={measurement.code}>
+                                    {measurement.value}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -145,7 +144,7 @@ export default function ItemForm(props) {
                             fullWidth
                             size="large"
                             variant="contained"
-                            onClick={() => alert('delete ' + item.item_id + ' to be added')}
+                            onClick={() => alert('delete ' + id + ' to be added')}
                             className={classes.error}
                         >
                             Διαγραφή Εγγραφής

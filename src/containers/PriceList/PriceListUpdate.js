@@ -56,8 +56,7 @@ export default function PriceListUpdate({ token }) {
         date_created: '',
         status_code: '',
         active_until: new Date()
-            .toISOString().replace(/T.*/, '')
-            .split('-').join('-'),
+            .toISOString().replace(/T.*/, ''),
         entity_id: '',
         list_items: []
     });

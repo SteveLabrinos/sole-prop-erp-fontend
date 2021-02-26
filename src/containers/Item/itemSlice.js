@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import { baseURL } from '../../shared/utility';
-import itemListJson from "../../assets/statics/itemList.json";
+import { baseURL } from '../../shared/utility';
 
 const itemSlice = createSlice({
     name: 'item',
@@ -20,9 +19,11 @@ const itemSlice = createSlice({
             { code: 'DA', value: 'Ημέρα'},
             { code: 'MO', value: 'Μήνας'},
         ],
-        itemType: [
+        itemTypes: [
             { code: 'I', value: 'Υλικό'},
-            { code: 'S', value: 'Υπηρεσία'}
+            { code: 'S', value: 'Υπηρεσία'},
+            { code: 'IP', value: 'Άυλο Αγαθό'},
+            { code: 'CX', value: 'Πάγια'}
         ]
     },
     reducers: {
@@ -46,7 +47,8 @@ const itemSlice = createSlice({
             state.entityError = action.payload;
             state.loading = false;
         },
-        addItemSuccess: state => {
+        addItemSuccess: (state, action) => {
+            state.items.push(action.payload);
             state.loading = false;
             state.created = true;
         },
@@ -86,24 +88,56 @@ export const { fetchItemsStart, fetchItemsSuccess, fetchItemsFail,
 
 //  async actions using thunk and logic actions that dispatch many actions
 export const fetchItemCollection = token => dispatch => {
-    // const fetchItem = async () => {
-    //     //  async code here when its applied from the backend
-    // };
-    //  temp solution of static data
-    dispatch(fetchItemsStart());
-    const itemList = Object.values(itemListJson);
-    itemList ?
-        dispatch(fetchItemsSuccess(itemList)) :
-        dispatch(fetchItemsFail('error on fetching items'));
+    const fetchItem = async () => {
+        dispatch(fetchItemsStart());
+        const response = await fetch(`${baseURL}items?tokenId=${token}`);
+
+        if (response.ok) {
+            const data = await response.json();
+            const setData = data.map(item => {
+                const createdDate = new Date(item.createdDate)
+                    .toISOString()
+                    .replace(/T.*/, '')
+                    .split('-')
+                    .reverse()
+                    .join('-');
+                const dateFirstSold = item.dateFirstSold ?
+                    new Date(item.dateFirstSold)
+                        .toISOString()
+                        .replace(/T.*/, '')
+                        .split('-')
+                        .reverse()
+                        .join('-') : null;
+                return {...item, createdDate, dateFirstSold};
+                });
+
+            dispatch(fetchItemsSuccess(setData));
+        } else {
+            dispatch(fetchItemsFail(response.status));
+        }
+    };
+
+    fetchItem().catch(error => console.log(error));
 };
 
 export const createNewItem = (item, token) => dispatch => {
+    const createItem = async () => {
+        const response = await fetch(`${baseURL}item?tokenId=${token }`, {
+            method: 'POST',
+            body: JSON.stringify(item)
+        });
+
+        if (response.ok) {
+            const id = await response.json();
+            dispatch(addItemSuccess({...item, id}));
+        } else {
+            dispatch(addItemFail(response.status));
+        }
+    };
     //  function to sent data to the db
     dispatch(addItemStart());
     //  the async function here
-    item ?
-        dispatch(addItemSuccess()) :
-        dispatch(addItemFail('error adding the item'));
+    createItem().catch(error => console.log(error));
 };
 
 export const updateExistingItem = (item, token) => dispatch => {

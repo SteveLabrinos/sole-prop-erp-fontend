@@ -48,14 +48,14 @@ export default function ItemCreate({ token }) {
     const dispatch = useDispatch();
     const params = useParams();
 
-    const { entityError, loading, item, created } = useSelector(itemSelector);
+    const { entityError, loading, item, created, itemTypes, measurementCodes } = useSelector(itemSelector);
 
+    const [itemId, setItemId] = useState(null);
 
     const [values, setValues] = useState({
-        item_id: null,
-        type_code: '',
+        typeCode: '',
         description: '',
-        measurement_code: '',
+        measurementCode: '',
     });
 
     const handleChange = property => event => {
@@ -65,32 +65,31 @@ export default function ItemCreate({ token }) {
 
     const handleSubmitItem = useCallback(event => {
         event.preventDefault();
-        console.log('About to sent this data to the backend');
-        console.log(values);
         if (item) {
-            dispatch(updateItem(values, token));
+            dispatch(updateItem(values, itemId, token));
             dispatch(clearItem());
         } else {
             dispatch(createNewItem(values, token));
         }
 
-    }, [dispatch, item, token, values]);
+    }, [itemId, dispatch, item, token, values]);
 
     useEffect(() => {
         if (params.id && !item) {
-            dispatch(fetchItem(params.id));
+            setItemId(params.id);
+            dispatch(fetchItem(itemId));
 
         } else if (item) {
             populateFields(item);
         }
-    }, [params.id, dispatch, item]);
+    }, [itemId, params.id, dispatch, item]);
 
     const populateFields = item => {
+        setItemId(item.id);
         setValues({
-            item_id: item.item_id,
-            type_code: item.type_code,
+            typeCode: item.typeCode,
             description: item.description,
-            measurement_code: item.measurement_code,
+            measurementCode: item.measurementCode,
         });
     };
 
@@ -129,8 +128,11 @@ export default function ItemCreate({ token }) {
                 {loading ?
                     <LoadingProgress /> :
                     <ItemForm submit={handleSubmitItem}
+                              id={itemId}
                               values={values}
                               item={item}
+                              itemTypes={itemTypes}
+                              measurementCodes={measurementCodes}
                               change={handleChange} />
                 }
             </div>

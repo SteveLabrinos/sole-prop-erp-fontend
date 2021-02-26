@@ -73,7 +73,7 @@ export default function ItemList({ token }) {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const { loading, items, created } = useSelector(itemSelector);
+    const { loading, items, created, measurementCodes, itemTypes } = useSelector(itemSelector);
 
     //  async dispatch to fetch entities
     const onFetchItems = useCallback(() => {
@@ -113,21 +113,21 @@ export default function ItemList({ token }) {
                 </TableHead>
                 <TableBody>
                     {items.map(item => (
-                        <StyledTableRow key={item.item_id}>
+                        <StyledTableRow key={item.id}>
                             <TableCell component="th" scope="row">
                                 {item.description}
                             </TableCell>
                             <TableCell align="center">
-                                {item.type_code}
+                                {itemTypes.filter(t => t.code === item.typeCode)[0].value}
                             </TableCell>
                             <TableCell align="center">
-                                {item.measurement_code}
+                                {measurementCodes.filter(m => m.code === item.measurementCode)[0].value}
                             </TableCell>
                             <TableCell align="center">
-                                {item.date_created}
+                                {item.createdDate}
                             </TableCell>
                             <TableCell align="center">
-                                {item.date_first_sold}
+                                {item.dateFirstSold ? item.dateFirstSold : null}
                             </TableCell>
                             <TableCell align="center">
                                 <Fab aria-label="update"
