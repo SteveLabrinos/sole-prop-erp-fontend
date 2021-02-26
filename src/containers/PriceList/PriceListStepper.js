@@ -7,6 +7,12 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import PriceListMasterUpdate from './PriceListMasterUpdate';
 import PriceListDetails from './PriceListDetails';
+import PriceListCheckout from './PriceListCheckout';
+
+/**
+ * @returns {JSX.Element}
+ * @author Stavros Labrinos [stalab at linuxmail.org] on 26/2/21.
+ */
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -51,7 +57,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
             case 1:
                 return <PriceListDetails {...props} />;
             case 2:
-                return 'This is the bit I really care about!';
+                return <PriceListCheckout {...props} />;
             default:
                 return 'Άγνωστο βήμα οδηγού';
         }
@@ -74,8 +80,7 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                     </div>
                 ) : (
                     <div>
-                        {/*<form className={classes.form} onSubmit={submit}>*/}
-                            <Typography component="div" className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+                        <Typography component="div" className={classes.instructions}>{getStepContent(activeStep)}</Typography>
                             <div>
                                 <Button
                                     disabled={activeStep === 0}
@@ -84,11 +89,18 @@ export default function HorizontalLabelPositionBelowStepper(props) {
                                 >
                                     Επιστροφη
                                 </Button>
-                                <Button variant="contained" color="primary" onClick={handleNext}>
-                                    {activeStep === steps.length - 1 ? 'Ολοκηρωση' : 'Επομενο'}
-                                </Button>
+                                {activeStep === steps.length -1 ?
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={() => alert('post to backend')}>
+                                        Αποθηκευση
+                                    </Button> :
+                                    <Button variant="contained" color="primary" onClick={handleNext}>
+                                        Επομενο
+                                    </Button>
+                                }
                             </div>
-                        {/*</form>*/}
                     </div>
                 )}
             </div>
