@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function EntityForm(props) {
     const classes = useStyles();
-    const {values, submit, change, entity } = props;
+    const {values, submit, change, entity, deleteEntity, entities } = props;
 
     return (
         <form className={classes.form} onSubmit={submit}>
@@ -128,9 +128,15 @@ export default function EntityForm(props) {
                             <MenuItem value="">
                                 <em>Επιλέξτε</em>
                             </MenuItem>
-                            <MenuItem value={37}>Photolist</MenuItem>
-                            <MenuItem value={26}>Twitterbeat</MenuItem>
-                            <MenuItem value={48}>Skipstorm</MenuItem>
+                            {entities
+                                .filter(e => e.type === 'COMPANY')
+                                .map(entity => (
+                                    <MenuItem
+                                        key={entity.id}
+                                        value={entity.id}>{
+                                            entity.name}
+                                    </MenuItem>
+                                ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -220,7 +226,7 @@ export default function EntityForm(props) {
                         name="phone"
                         value={values.phone}
                         placeholder="Συμπληρώστε Τηλέφωνο"
-                        onChange={change('phoneNumber')}
+                        onChange={change('phone')}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -265,7 +271,7 @@ export default function EntityForm(props) {
                             id="select-tax"
                             fullWidth
                             value={values.taxOfficeCode}
-                            onChange={change('code')}
+                            onChange={change('taxOfficeCode')}
                         >
                             <MenuItem value="">
                                 <em>Επιλέξτε</em>
@@ -305,9 +311,10 @@ export default function EntityForm(props) {
                     <Grid item xs={12} md={3} lg={4}>
                         <Button
                             fullWidth
+                            type="submit"
                             size="large"
                             variant="contained"
-                            onClick={() => alert('delete ' + entity.id + ' to be added')}
+                            onClick={deleteEntity}
                             className={classes.error}
                         >
                             Διαγραφή Εγγραφής

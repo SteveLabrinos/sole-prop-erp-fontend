@@ -1,7 +1,8 @@
 import { makeStyles } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useCallback, useEffect, useState } from 'react';
-import { addNewEntity, entitiesSelector, updateExistingEntity, clearEntityError } from './entitySlice';
+import { addNewEntity, entitiesSelector, updateExistingEntity,
+    deleteExistingEntity, clearEntityError } from './entitySlice';
 import { Redirect, useParams } from 'react-router';
 import { baseURL, mapCodeRole } from '../../shared/utility';
 import Typography from '@material-ui/core/Typography';
@@ -46,7 +47,7 @@ export default function EntityCreate({ token }) {
     const dispatch = useDispatch();
     const params = useParams();
 
-    const { entityError, loading, created } = useSelector(entitiesSelector);
+    const { entityError, loading, created, entities } = useSelector(entitiesSelector);
 
     //  getting entity data if the call is for update
     const [entity, setEntity] = useState(null);
@@ -129,6 +130,12 @@ export default function EntityCreate({ token }) {
 
     }, [entity, dispatch, values, token]);
 
+    const handleDeleteEntity = useCallback(event => {
+        event.preventDefault();
+
+        dispatch(deleteExistingEntity(values.id, token));
+    }, [values.id, dispatch, token])
+
     //  displaying the data
     const errorMsg = entityError ?
         <Typography variant="h5" color="error">
@@ -162,6 +169,8 @@ export default function EntityCreate({ token }) {
                 {loading ?
                     <LoadingProgress /> :
                     <EntityForm submit={handleSubmitEntity}
+                                entities={entities}
+                                deleteEntity={handleDeleteEntity}
                                 values={values} entity={entity}
                                 change={handleChange} />
                 }
