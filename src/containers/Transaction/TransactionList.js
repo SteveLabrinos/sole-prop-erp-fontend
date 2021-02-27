@@ -100,6 +100,10 @@ export default function TransactionList({ token }) {
         id ? history.push(`/transactions/update/${id}`) : history.push(`/transactions/new`);
     };
 
+    const handleTransactionReport = id => {
+        history.push(`/transactions/${id}`);
+    };
+
     const authRedirect = !token? <Redirect to="auth/sign-in" /> : null;
 
     //  displaying data, waiting for transactions and entities
@@ -147,9 +151,9 @@ export default function TransactionList({ token }) {
                                     {statuses.filter(s => s.code === tr.status)[0].value}
                                 </TableCell>
                                 <TableCell align="center">
-                                    <Fab aria-label="update"
+                                    <Fab aria-label="report"
                                          color="primary"
-                                         onClick={() => handleUpdateTransaction(tr.id)}
+                                         onClick={() => handleTransactionReport(tr.id)}
                                          size="small">
                                         <VisibilityIcon />
                                     </Fab>
