@@ -6,7 +6,7 @@ const itemSlice = createSlice({
     initialState: {
         loading: false,
         items: [],
-        item: null,
+        selectedItem: null,
         itemError: null,
         created: false,
         //  temp lists until they are provided from the backend
@@ -169,7 +169,7 @@ export const deleteExistingItem = (id, token) => dispatch => {
         response.ok ? dispatch(deleteItem(id)) : dispatch(addItemFail());
     };
     dispatch(addItemStart());
-    
+
     removeItem().catch(error => console.log(error));
 };
 

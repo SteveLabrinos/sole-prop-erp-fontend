@@ -48,7 +48,7 @@ export default function ItemCreate({ token }) {
     const dispatch = useDispatch();
     const params = useParams();
 
-    const { entityError, loading, item, created,
+    const { entityError, loading, selectedItem, created,
         itemTypes, measurementCodes } = useSelector(itemSelector);
 
     const [itemId, setItemId] = useState(null);
@@ -66,13 +66,13 @@ export default function ItemCreate({ token }) {
 
     const handleSubmitItem = useCallback(event => {
         event.preventDefault();
-        if (item) {
+        if (selectedItem) {
             dispatch(updateExistingItem(values, itemId, token));
         } else {
             dispatch(createNewItem(values, token));
         }
 
-    }, [itemId, dispatch, item, token, values]);
+    }, [itemId, dispatch, selectedItem, token, values]);
 
     const handleDeleteItem = useCallback(event => {
         event.preventDefault();
@@ -81,14 +81,14 @@ export default function ItemCreate({ token }) {
     }, [dispatch, itemId, token]);
 
     useEffect(() => {
-        if (params.id && !item && !created) {
+        if (params.id && !selectedItem && !created) {
             setItemId(params.id);
             dispatch(fetchItem(params.id));
 
-        } else if (item) {
-            populateFields(item);
+        } else if (selectedItem) {
+            populateFields(selectedItem);
         }
-    }, [created, itemId, params.id, dispatch, item]);
+    }, [created, itemId, params.id, dispatch, selectedItem]);
 
     const populateFields = item => {
         setItemId(item.id);
@@ -115,7 +115,7 @@ export default function ItemCreate({ token }) {
     return (
         <Container component="main" maxWidth="lg">
             <div className={classes.paper}>
-                {item ?
+                {selectedItem ?
                     <Avatar className={classes.avatarUpdate}>
                         <EditIcon htmlColor="#fff"/>
                     </Avatar> :
@@ -124,7 +124,7 @@ export default function ItemCreate({ token }) {
                     </Avatar>
                 }
                 <Typography component="h1" variant="h5">
-                    {item ? 'Επεξεργασία Υπηρεσίας' :
+                    {selectedItem ? 'Επεξεργασία Υπηρεσίας' :
                         'Δημιουργία Υπηρεσίας'
                     }
                 </Typography>
@@ -137,7 +137,7 @@ export default function ItemCreate({ token }) {
                               deleteItem={handleDeleteItem}
                               id={itemId}
                               values={values}
-                              item={item}
+                              item={selectedItem}
                               itemTypes={itemTypes}
                               measurementCodes={measurementCodes}
                               change={handleChange} />

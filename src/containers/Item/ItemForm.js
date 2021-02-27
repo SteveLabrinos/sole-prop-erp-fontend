@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function ItemForm(props) {
     const classes = useStyles();
-    const {id, values, submit, change, item,
+    const {values, submit, change, selectedItem,
         itemTypes, measurementCodes, deleteItem } = props;
 
     return (
@@ -115,9 +115,9 @@ export default function ItemForm(props) {
                     </FormControl>
                 </Grid>
             </Grid>
-            <Grid container justify={item ? 'space-between' : 'center'}>
+            <Grid container justify={selectedItem ? 'space-between' : 'center'}>
                 <Grid item xs={12} md={6} lg={4}>
-                    {item ?
+                    {selectedItem ?
                         <Button
                             type="submit"
                             fullWidth
@@ -139,7 +139,7 @@ export default function ItemForm(props) {
                         </Button>
                     }
                 </Grid>
-                {item ?
+                {selectedItem ?
                     <Grid item xs={12} md={3} lg={4}>
                         <Button
                             fullWidth

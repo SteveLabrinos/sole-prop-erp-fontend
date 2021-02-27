@@ -1,9 +1,9 @@
+import React, {useCallback, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from 'react-router-dom';
-import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchItemCollection, itemSelector, clearCreated, clearItem } from './itemSlice';
+import { transactionSelector, fetchTransactions } from './transactionSlice';
 import Table from '@material-ui/core/Table';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableBody from '@material-ui/core/TableBody';
@@ -19,12 +19,10 @@ import Fab from '@material-ui/core/Fab';
 import { green } from '@material-ui/core/colors';
 import AddIcon from '@material-ui/icons/Add';
 
-
 /**
  * @returns {JSX.Element}
- * @author Stavros Labrinos [stalab at linuxmail.org] on 23/2/21.
+ * @author Stavros Labrinos [stalab at linuxmail.org] on 27/2/21.
  */
-
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -67,71 +65,83 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-
-export default function ItemList({ token }) {
+export default function TransactionList({ token }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const { loading, items, measurementCodes, itemTypes, created, selectedItem } = useSelector(itemSelector);
+    const { loading, transactions, processed } = useSelector(transactionSelector);
 
-    //  async dispatch to fetch entities
-    const onFetchItems = useCallback(() => {
-        dispatch(fetchItemCollection(token));
+    const onFetchTransactions = useCallback(() => {
+        dispatch(fetchTransactions(token));
     }, [dispatch, token]);
 
-    //  apply the entities on the view
+    //  fetching the initial transactions from the DB
     useEffect(() => {
-        if (items.length === 0) {
-            onFetchItems();
-        } else if (selectedItem) {
-            dispatch(clearItem());
+        if (transactions.length === 0 || processed) {
+            onFetchTransactions();
         }
-    }, [dispatch, selectedItem, items.length, onFetchItems]);
+    }, [transactions.length, onFetchTransactions, processed]);
 
-
-    const handleUpdateEntity = id => {
-        if (created) dispatch(clearCreated());
-        id ? history.push(`items/update/${id}`) : history.push(`items/new`);
+    const handleUpdateTransaction = id => {
+        id ? history.push(`/transactions/update/${id}`) : history.push(`/transactions/new`);
     };
 
     const authRedirect = !token? <Redirect to="auth/sign-in" /> : null;
 
-    const displayItemList = loading ?
+    //  displaying data
+    const displayingTransactions = loading ?
         <LoadingProgress /> :
         <TableContainer component={Paper} className={classes.containerStyle}>
             <Table>
                 <TableHead>
                     <TableRow>
+                        <StyledTableCell align="center">Συναλλασόμενος</StyledTableCell>
                         <StyledTableCell align="center">Περιγραφή</StyledTableCell>
-                        <StyledTableCell align="center">Τύπος</StyledTableCell>
-                        <StyledTableCell align="center">Μονάδα Μέτρησης</StyledTableCell>
-                        <StyledTableCell align="center">Ημερ/νια Δημιουργίας</StyledTableCell>
-                        <StyledTableCell align="center">Ημερ/νια Πρώτης Πώλησης</StyledTableCell>
+                        <StyledTableCell align="center">α/α Συναλλαγής</StyledTableCell>
+                        <StyledTableCell align="center">Ημερομηνία</StyledTableCell>
+                        <StyledTableCell align="center">Τρόπος Πληρωμής</StyledTableCell>
+                        <StyledTableCell align="center">Συνολικό Ποσό</StyledTableCell>
+                        <StyledTableCell align="center">Κατάσταση</StyledTableCell>
+                        <StyledTableCell align="center">Ανάλυση</StyledTableCell>
                         <StyledTableCell align="center">Επεξεργασία</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {items.map(item => (
-                        <StyledTableRow key={item.id}>
+                    {transactions.map(tr => (
+                        <StyledTableRow key={tr.id}>
                             <TableCell component="th" scope="row">
-                                {item.description}
+                                {tr.entityId}
+                            </TableCell>
+                            <TableCell align="left">
+                                {tr.title}
                             </TableCell>
                             <TableCell align="center">
-                                {itemTypes.filter(t => t.code === item.typeCode)[0].value}
+                                {tr.orderNumber}
                             </TableCell>
                             <TableCell align="center">
-                                {measurementCodes.filter(m => m.code === item.measurementCode)[0].value}
+                                {tr.createdDate}
                             </TableCell>
                             <TableCell align="center">
-                                {item.createdDate}
+                                {tr.paymentTerms}
+                            </TableCell>
+                            <TableCell align="right">
+                                {`${Number(tr.totalPrice).toFixed(2)} €`}
                             </TableCell>
                             <TableCell align="center">
-                                {item.dateFirstSold ? item.dateFirstSold : null}
+                                {tr.status}
                             </TableCell>
                             <TableCell align="center">
                                 <Fab aria-label="update"
-                                     onClick={() => handleUpdateEntity(item.id)}
+                                     onClick={() => handleUpdateTransaction(tr.id)}
+                                     className={classes.fabGreen}
+                                     size="small">
+                                    <EditIcon />
+                                </Fab>
+                            </TableCell>
+                            <TableCell align="center">
+                                <Fab aria-label="update"
+                                     onClick={() => handleUpdateTransaction(tr.id)}
                                      className={classes.fabGreen}
                                      size="small">
                                     <EditIcon />
@@ -146,14 +156,14 @@ export default function ItemList({ token }) {
     return (
         <React.Fragment>
             {authRedirect}
-            <Cockpit title="Υπηρεσίες" />
+            <Cockpit title="Συναλλαγές" />
             <Fab color="primary"
                  className={classes.fab}
                  aria-label="add"
-                 onClick={handleUpdateEntity} >
+                 onClick={() => alert('to be added')} >
                 <AddIcon />
             </Fab>
-            {displayItemList}
+            {displayingTransactions}
         </React.Fragment>
     );
 }
