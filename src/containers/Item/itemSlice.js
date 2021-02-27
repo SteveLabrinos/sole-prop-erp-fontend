@@ -48,43 +48,48 @@ const itemSlice = createSlice({
             state.loading = false;
         },
         addItemSuccess: (state, action) => {
-            state.items.push(action.payload);
+            state.items.push({
+                ...action.payload,
+                createdDate: new Date()
+                    .toISOString()
+                    .replace(/T.*/, '')
+            });
             state.loading = false;
             state.created = true;
         },
         updateItem: (state, action) => {
-            state.items.map(item => {
-                return item.item_id === action.payload.item_id ?
-                    action.payload :
-                    item;
-            });
+            state.items = state.items.map(item => (
+                item.id === action.payload.id ?
+                    { ...action.payload, createdDate: item.createdDate } : item
+            ));
+            state.loading = false;
+            state.created = true;
+            state.item = null;
         },
         deleteItem: (state, action) => {
-            state.items = state.items
-                .filter(i => i.item_id !== action.payload);
+            state.items = state.items.filter(i => i.id !== action.payload);
+            state.loading = false;
+            state.created = true;
         },
         clearItemError: state => {
             state.itemError = null;
         },
         fetchItem: (state, action) => {
-            const item = state.items
-                .filter(i => i.item_id === Number.parseInt(action.payload))[0];
-            // get the codes from measurement and type of the item
-            item.measurement_code = state.measurementCodes
-                .filter(m => m.value === item.measurement_code)[0].code;
-            item.type_code = state.itemType
-                .filter(t => t.value === item.type_code)[0].code;
-            state.item = item;
+            state.item = state.items
+                .filter(i => i.id === Number.parseInt(action.payload))[0];
+        },
+        clearCreated: state => {
+            state.created = false;
         },
         clearItem: state => {
-            state.item = null;
-        }
+            state.item = false;
+        },
     }
 });
 
 export const { fetchItemsStart, fetchItemsSuccess, fetchItemsFail,
-    clearItemError, fetchItem, addItemStart, addItemSuccess,
-    addItemFail, updateItem, clearItem } = itemSlice.actions;
+    clearItemError, fetchItem, addItemStart, addItemSuccess, deleteItem,
+    addItemFail, updateItem, clearCreated, clearItem } = itemSlice.actions;
 
 //  async actions using thunk and logic actions that dispatch many actions
 export const fetchItemCollection = token => dispatch => {
@@ -140,13 +145,32 @@ export const createNewItem = (item, token) => dispatch => {
     createItem().catch(error => console.log(error));
 };
 
-export const updateExistingItem = (item, token) => dispatch => {
+export const updateExistingItem = (item, id, token) => dispatch => {
+    const postItem = async () => {
+        const response = await fetch(`${baseURL}item/id/${id}?tokenId=${token}`, {
+            method: 'PUT',
+            body: JSON.stringify(item)
+        });
+
+        response.ok ? dispatch(updateItem({...item, id})) : dispatch(addItemFail(response.status));
+    };
     //  function to sent data to the db
     dispatch(addItemStart());
     //  the async function here
-    item ?
-        dispatch(updateItem(item)) :
-        dispatch(addItemFail('error updating the item'));
+    postItem().catch(error => console.log(error));
+};
+
+export const deleteExistingItem = (id, token) => dispatch => {
+    const removeItem = async () => {
+        const response = await fetch(`${baseURL}item/id/${id}?tokenId=${token}`, {
+            method: 'DELETE'
+        });
+
+        response.ok ? dispatch(deleteItem(id)) : dispatch(addItemFail());
+    };
+    dispatch(addItemStart());
+    
+    removeItem().catch(error => console.log(error));
 };
 
 

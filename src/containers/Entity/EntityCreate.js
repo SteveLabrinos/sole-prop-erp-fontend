@@ -134,7 +134,8 @@ export default function EntityCreate({ token }) {
         event.preventDefault();
 
         dispatch(deleteExistingEntity(values.id, token));
-    }, [values.id, dispatch, token])
+    }, [values.id, dispatch, token]);
+
 
     //  displaying the data
     const errorMsg = entityError ?

@@ -3,7 +3,7 @@ import { Redirect, useHistory } from 'react-router-dom';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchItemCollection, itemSelector } from './itemSlice';
+import { fetchItemCollection, itemSelector, clearCreated, clearItem } from './itemSlice';
 import Table from '@material-ui/core/Table';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableBody from '@material-ui/core/TableBody';
@@ -73,7 +73,7 @@ export default function ItemList({ token }) {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const { loading, items, created, measurementCodes, itemTypes } = useSelector(itemSelector);
+    const { loading, items, measurementCodes, itemTypes, created, item } = useSelector(itemSelector);
 
     //  async dispatch to fetch entities
     const onFetchItems = useCallback(() => {
@@ -82,16 +82,16 @@ export default function ItemList({ token }) {
 
     //  apply the entities on the view
     useEffect(() => {
-        if (items.length === 0 || created) {
+        if (items.length === 0) {
             onFetchItems();
+        } else if (item) {
+            dispatch(clearItem());
         }
-    }, [items.length, onFetchItems, created]);
+    }, [dispatch, item, items.length, onFetchItems]);
 
-    const handleCreateEntity = () => {
-        history.push(`items/new`);
-    }
 
     const handleUpdateEntity = id => {
+        if (created) dispatch(clearCreated());
         id ? history.push(`items/update/${id}`) : history.push(`items/new`);
     };
 
@@ -131,7 +131,7 @@ export default function ItemList({ token }) {
                             </TableCell>
                             <TableCell align="center">
                                 <Fab aria-label="update"
-                                     onClick={() => handleUpdateEntity(item.item_id)}
+                                     onClick={() => handleUpdateEntity(item.id)}
                                      className={classes.fabGreen}
                                      size="small">
                                     <EditIcon />
@@ -150,7 +150,7 @@ export default function ItemList({ token }) {
             <Fab color="primary"
                  className={classes.fab}
                  aria-label="add"
-                 onClick={handleCreateEntity} >
+                 onClick={handleUpdateEntity} >
                 <AddIcon />
             </Fab>
             {displayItemList}

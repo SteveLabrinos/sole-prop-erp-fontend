@@ -52,7 +52,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function ItemForm(props) {
     const classes = useStyles();
-    const {id, values, submit, change, item, itemTypes, measurementCodes } = props;
+    const {id, values, submit, change, item,
+        itemTypes, measurementCodes, deleteItem } = props;
 
     return (
         <form className={classes.form} onSubmit={submit}>
@@ -144,7 +145,7 @@ export default function ItemForm(props) {
                             fullWidth
                             size="large"
                             variant="contained"
-                            onClick={() => alert('delete ' + id + ' to be added')}
+                            onClick={deleteItem}
                             className={classes.error}
                         >
                             Διαγραφή Εγγραφής

@@ -4,8 +4,8 @@ import { Redirect, useParams } from 'react-router';
 
 import { makeStyles } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
-import { itemSelector, clearItemError, fetchItem,
-    createNewItem, updateItem, clearItem } from './itemSlice';
+import { itemSelector, clearItemError, fetchItem, deleteExistingItem,
+    createNewItem, updateExistingItem } from './itemSlice';
 import Typography from '@material-ui/core/Typography';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import Avatar from '@material-ui/core/Avatar';
@@ -48,7 +48,8 @@ export default function ItemCreate({ token }) {
     const dispatch = useDispatch();
     const params = useParams();
 
-    const { entityError, loading, item, created, itemTypes, measurementCodes } = useSelector(itemSelector);
+    const { entityError, loading, item, created,
+        itemTypes, measurementCodes } = useSelector(itemSelector);
 
     const [itemId, setItemId] = useState(null);
 
@@ -66,23 +67,28 @@ export default function ItemCreate({ token }) {
     const handleSubmitItem = useCallback(event => {
         event.preventDefault();
         if (item) {
-            dispatch(updateItem(values, itemId, token));
-            dispatch(clearItem());
+            dispatch(updateExistingItem(values, itemId, token));
         } else {
             dispatch(createNewItem(values, token));
         }
 
     }, [itemId, dispatch, item, token, values]);
 
+    const handleDeleteItem = useCallback(event => {
+        event.preventDefault();
+
+        dispatch(deleteExistingItem(itemId, token));
+    }, [dispatch, itemId, token]);
+
     useEffect(() => {
-        if (params.id && !item) {
+        if (params.id && !item && !created) {
             setItemId(params.id);
-            dispatch(fetchItem(itemId));
+            dispatch(fetchItem(params.id));
 
         } else if (item) {
             populateFields(item);
         }
-    }, [itemId, params.id, dispatch, item]);
+    }, [created, itemId, params.id, dispatch, item]);
 
     const populateFields = item => {
         setItemId(item.id);
@@ -128,6 +134,7 @@ export default function ItemCreate({ token }) {
                 {loading ?
                     <LoadingProgress /> :
                     <ItemForm submit={handleSubmitItem}
+                              deleteItem={handleDeleteItem}
                               id={itemId}
                               values={values}
                               item={item}
