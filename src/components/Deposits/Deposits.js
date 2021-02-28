@@ -25,7 +25,7 @@ export default function Deposits(props) {
         <React.Fragment>
             <Title>{title}</Title>
             <Typography component="p" variant="h4">
-                1.150,00 €
+                320,40 €
             </Typography>
             <Typography color="textSecondary" className={classes.depositContext}>
                 Φεβρουάριος, 2021

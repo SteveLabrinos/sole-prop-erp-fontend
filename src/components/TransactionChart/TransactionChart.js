@@ -15,15 +15,13 @@ function createData(month, amount) {
 }
 
 const data = [
-    createData('2020-06', 0),
-    createData('2020-07', 1796.05),
-    createData('2020-08', 25279.53),
-    createData('2020-09', 34513.85),
-    createData('2020-10', 33365.95),
-    createData('2020-11', 45446.87),
-    createData('2020-12', 39811.5),
-    createData('2021-01', 31580.74),
-    createData('2021-02', undefined),
+    createData('2020-0', 0),
+    createData('2020-09', 124),
+    createData('2020-10', 62),
+    createData('2020-11', 62),
+    createData('2020-12', 124),
+    createData('2021-01', 458.8),
+    createData('2021-02', 320.4),
 ];
 
 
