@@ -1,7 +1,8 @@
 import { makeStyles } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useCallback, useEffect, useState } from 'react';
-import { addNewEntity, entitiesSelector, updateExistingEntity, clearEntityError } from './entitySlice';
+import { addNewEntity, entitiesSelector, updateExistingEntity,
+    deleteExistingEntity, clearEntityError } from './entitySlice';
 import { Redirect, useParams } from 'react-router';
 import { baseURL, mapCodeRole } from '../../shared/utility';
 import Typography from '@material-ui/core/Typography';
@@ -46,7 +47,7 @@ export default function EntityCreate({ token }) {
     const dispatch = useDispatch();
     const params = useParams();
 
-    const { entityError, loading } = useSelector(entitiesSelector);
+    const { entityError, loading, created, entities } = useSelector(entitiesSelector);
 
     //  getting entity data if the call is for update
     const [entity, setEntity] = useState(null);
@@ -75,17 +76,20 @@ export default function EntityCreate({ token }) {
         activity: '',
         street: '',
         streetNumber: '',
+        zipCode: '',
         city: '',
         area: '',
-        country: '',
-        bankAccountList: [],
+        countryCode: '',
+        // bankAccountList: [],
         companyId: '',
         name: '',
-        phoneNumber: '',
+        phone: '',
         role: '',
         taxId: '',
-        code: '',
-        website: ''
+        taxOfficeCode: '',
+        website: '',
+        type: '',
+        email: '',
     });
 
 
@@ -100,28 +104,38 @@ export default function EntityCreate({ token }) {
             activity: entity.activity,
             street: entity.address.street,
             streetNumber: entity.address.streetNumber,
+            zipCode: entity.address.postalCode,
             city: entity.address.city,
             area: entity.address.area,
-            country: entity.address.country,
-            bankAccountList: entity.bankAccountList,
-            companyId: entity.companyId,
+            countryCode: entity.address.countryCode,
+            // bankAccountList: entity.bankAccountList,
+            companyId: entity.companyId ? entity.companyId : '',
             name: entity.name,
-            phoneNumber: entity.phoneNumber,
+            phone: entity.phoneNumber,
             role: mapCodeRole(entity.role),
             taxId: entity.taxId,
-            code: entity.taxOffice.code,
-            website: entity.website
+            taxOfficeCode: entity.taxOffice.code,
+            website: entity.website,
+            type: entity.type,
+            email: entity.email ? entity.email : '',
         });
     };
 
     const handleSubmitEntity = useCallback(event => {
         event.preventDefault();
-        console.log('About to sent this data to the backend');
-        console.log(values);
+
         entity ?
             dispatch(updateExistingEntity(values, token)) :
             dispatch(addNewEntity(values, token));
+
     }, [entity, dispatch, values, token]);
+
+    const handleDeleteEntity = useCallback(event => {
+        event.preventDefault();
+
+        dispatch(deleteExistingEntity(values.id, token));
+    }, [values.id, dispatch, token]);
+
 
     //  displaying the data
     const errorMsg = entityError ?
@@ -133,7 +147,9 @@ export default function EntityCreate({ token }) {
     const authRedirect = !token ?
         <Redirect to="/auth/sign-in"/> : null;
 
-    console.log(values);
+    const createdRedirect = created ?
+        <Redirect to="/entities"/> : null;
+
     return (
         <Container component="main" maxWidth="lg">
             <div className={classes.paper}>
@@ -146,13 +162,16 @@ export default function EntityCreate({ token }) {
                     </Avatar>
                 }
                 <Typography component="h1" variant="h5">
-                    {entity ? 'Επεξεργασία Συναλλασόμενου' : 'Δημιουργία Συναλλασόμενου'}
+                    {entity ? 'Επεξεργασία Συναλλασσόμενου' : 'Δημιουργία Συναλλασσόμενου'}
                 </Typography>
                 {authRedirect}
+                {createdRedirect}
                 {errorMsg}
                 {loading ?
                     <LoadingProgress /> :
                     <EntityForm submit={handleSubmitEntity}
+                                entities={entities}
+                                deleteEntity={handleDeleteEntity}
                                 values={values} entity={entity}
                                 change={handleChange} />
                 }

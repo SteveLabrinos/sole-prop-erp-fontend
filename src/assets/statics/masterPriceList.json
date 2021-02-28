@@ -1,0 +1,59 @@
+[
+  {
+    "price_list_id": 23,
+    "description": "Reposition Right Radius with Ring External Fixation Device, Percutaneous Approach",
+    "date_created": "2020-03-16",
+    "status_code": 0,
+    "status_description": "Ενεργός",
+    "activity_util": "2021-06-19",
+    "entity_id": 9,
+    "entity": "Jazzy",
+    "list_items": [
+      {
+        "item_id": 1,
+        "price": 957.31,
+        "description": "Restriction of Right Ulnar Artery with Extraluminal Device, Percutaneous Endoscopic Approach",
+        "type_code": "I",
+        "type_desc": "Υλικό",
+        "measurement_code": "KG",
+        "measurement_desc": "Κιλά"
+      },
+      {
+        "item_id": 13,
+        "price": 657.80,
+        "description": "Site Service",
+        "type_code": "I",
+        "type_desc": "Υλικό",
+        "measurement_code": "KG",
+        "measurement_desc": "Κιλά"
+      },
+      {
+        "item_id": 6,
+        "price": 188.36,
+        "description": "Plaque Radiation of Larynx",
+        "type_code": "S",
+        "type_desc": "Υπηρεσία",
+        "measurement_code": "WE",
+        "measurement_desc": "Εβδομάδα"
+      },
+      {
+        "item_id": 27,
+        "price": 750.22,
+        "description": null,
+        "type_code": "I",
+        "type_desc": "Υλικό",
+        "measurement_code": "MO",
+        "measurement_desc": "Μήνας"
+      },
+      {
+        "item_id": 33,
+        "price": 428.38,
+        "description": "High Dose Rate (HDR) Brachytherapy of Ear using Cesium 137 (Cs-137)",
+        "type_code": "I",
+        "type_desc": "Υλικό",
+        "measurement_code": "MO",
+        "measurement_desc": "Μήνας"
+      }
+    ]
+  }
+]

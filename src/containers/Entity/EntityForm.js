@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function EntityForm(props) {
     const classes = useStyles();
-    const {values, submit, change, entity } = props;
+    const {values, submit, change, entity, deleteEntity, entities } = props;
 
     return (
         <form className={classes.form} onSubmit={submit}>
@@ -93,15 +93,52 @@ export default function EntityForm(props) {
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={3}>
-                    <TextField
-                        fullWidth
-                        id="phone"
-                        label="Τηλέφωνο"
-                        name="phone"
-                        value={values.phone}
-                        placeholder="Συμπληρώστε Τηλέφωνο"
-                        onChange={change('phoneNumber')}
-                    />
+                    <FormControl required
+                                 fullWidth
+                                 disabled={entity !== null}
+                                 className={classes.formControl}>
+                        <InputLabel id="select-type-label">Τύπος</InputLabel>
+                        <Select
+                            labelId="select-type-label"
+                            id="select-type"
+                            required
+                            fullWidth
+                            value={values.type}
+                            onChange={change('type')}
+                        >
+                            <MenuItem value="">
+                                <em>Επιλέξτε</em>
+                            </MenuItem>
+                            <MenuItem value={'PERSON'}>Φυσικό Πρόσωπο</MenuItem>
+                            <MenuItem value={'COMPANY'}>Εταιρεία</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <FormControl disabled={values.type === 'COMPANY'}
+                                 fullWidth className={classes.formControl}>
+                        <InputLabel id="select-company-label">Εκπρόσωπος Εταιρεία</InputLabel>
+                        <Select
+                            labelId="select-company-label"
+                            id="select-company"
+                            fullWidth
+                            value={values.type === 'COMPANY' ? '' : values.companyId}
+                            onChange={change('companyId')}
+                        >
+                            <MenuItem value="">
+                                <em>Επιλέξτε</em>
+                            </MenuItem>
+                            {entities
+                                .filter(e => e.type === 'COMPANY')
+                                .map(entity => (
+                                    <MenuItem
+                                        key={entity.id}
+                                        value={entity.id}>{
+                                            entity.name}
+                                    </MenuItem>
+                                ))}
+                        </Select>
+                    </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={3}>
                     <TextField
@@ -170,8 +207,8 @@ export default function EntityForm(props) {
                             id="select-country"
                             fullWidth
                             required
-                            value={values.country}
-                            onChange={change('country')}
+                            value={values.countryCode}
+                            onChange={change('countryCode')}
                         >
                             <MenuItem value="">
                                 <em>Επιλέξτε</em>
@@ -180,6 +217,39 @@ export default function EntityForm(props) {
                             <MenuItem value={'CY'}>Κύπρος</MenuItem>
                         </Select>
                     </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <TextField
+                        fullWidth
+                        id="phone"
+                        label="Τηλέφωνο"
+                        name="phone"
+                        value={values.phone}
+                        placeholder="Συμπληρώστε Τηλέφωνο"
+                        onChange={change('phone')}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <TextField
+                        fullWidth
+                        id="email"
+                        label="E-mail"
+                        name="activity"
+                        value={values.email}
+                        placeholder="Συμπληρώστε e-mail"
+                        onChange={change('email')}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <TextField
+                        fullWidth
+                        id="activity"
+                        label="Δραστηριότητα"
+                        name="activity"
+                        value={values.activity}
+                        placeholder="Συμπληρώστε Δραστηριότητα"
+                        onChange={change('activity')}
+                    />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={3}>
                     <TextField
@@ -200,8 +270,8 @@ export default function EntityForm(props) {
                             labelId="select-tax-label"
                             id="select-tax"
                             fullWidth
-                            value={values.code}
-                            onChange={change('code')}
+                            value={values.taxOfficeCode}
+                            onChange={change('taxOfficeCode')}
                         >
                             <MenuItem value="">
                                 <em>Επιλέξτε</em>
@@ -211,17 +281,6 @@ export default function EntityForm(props) {
                             <MenuItem value={'P1'}>Α΄ Πειραιά</MenuItem>
                         </Select>
                     </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                    <TextField
-                        fullWidth
-                        id="activity"
-                        label="Δραστηριότητα"
-                        name="activity"
-                        value={values.activity}
-                        placeholder="Συμπληρώστε Δραστηριότητα"
-                        onChange={change('activity')}
-                    />
                 </Grid>
             </Grid>
             <Grid container justify={entity ? 'space-between' : 'center'}>
@@ -252,9 +311,10 @@ export default function EntityForm(props) {
                     <Grid item xs={12} md={3} lg={4}>
                         <Button
                             fullWidth
+                            type="submit"
                             size="large"
                             variant="contained"
-                            onClick={() => alert('delete ' + entity.id + ' to be added')}
+                            onClick={deleteEntity}
                             className={classes.error}
                         >
                             Διαγραφή Εγγραφής

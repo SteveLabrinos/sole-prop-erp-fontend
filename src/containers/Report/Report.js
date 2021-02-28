@@ -8,12 +8,11 @@ import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Deposits from '../../components/Deposits/Deposits';
-import RecentTransactions from '../../components/RecentTransactions/RecentTransactions';
 import TransactionChart from '../../components/TransactionChart/TransactionChart';
-import { entitiesSelector } from '../Entity/entitySlice';
-import { transactionSelector } from '../Transaction/transactionSlice';
-import { dashboardSelector, fetchMonthlyIncome, fetchIncomesPerMonth } from './dashboardSlice';
+import { dashboardSelector, fetchIncomesPerMonth,
+    fetchMonthlyIncome } from '../Dashboard/dashboardSlice';
 import LoadingProgress from '../../UI/LoadingProgress/LoadingProgress';
+import Typography from '@material-ui/core/Typography';
 
 /**
  * @returns {JSX.Element}
@@ -37,12 +36,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function Dashboard ({ token }) {
+export default function Report({ token }) {
     const classes = useStyles();
     const dispatch = useDispatch();
 
-    const { loading } = useSelector(entitiesSelector);
-    const { transactionLoading } = useSelector(transactionSelector);
     const { monthlyIncome, dashboardLoading, incomes } = useSelector(dashboardSelector);
 
     //  get monthly income
@@ -83,7 +80,7 @@ export default function Dashboard ({ token }) {
         <React.Fragment>
             {authRedirect}
             <CssBaseline />
-            <Cockpit title="Αρχική" />
+            <Cockpit title="CRM Reports" />
             <Grid container alignItems="center" className={classes.container} spacing={3}>
                 <Grid item xs={12} md={4} lg={3}>
                     {displayDeposits}
@@ -92,11 +89,10 @@ export default function Dashboard ({ token }) {
                     {displayChart}
                 </Grid>
                 <Grid item xs={12}>
-                    <Paper className={classes.paper}>
-                        <RecentTransactions
-                            entityLoading={loading}
-                            transactionLoading={transactionLoading}
-                            token={token} />
+                    <Paper className={classes.paper} style={{ height: 100 }}>
+                        <Typography variant="h5" component="h6" color="secondary">
+                            Σύντομα με πολλές νέες δυνατότητες και εργαλεία!
+                        </Typography>
                     </Paper>
                 </Grid>
             </Grid>

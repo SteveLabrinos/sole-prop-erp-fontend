@@ -32,7 +32,7 @@ export default function EntityBody(props) {
                 <Grid item xs={12} md={6} lg={3} xl={2}>
                     <Typography variant="subtitle1"
                                 color="secondary" component="p">
-                        {`${props.address.city}/${props.address.country}`}
+                        {`${props.address.city}/${props.address.countryCode}`}
                     </Typography>
                 </Grid>
                 <Grid item xs={12} md={6} lg={3} xl={2}>
