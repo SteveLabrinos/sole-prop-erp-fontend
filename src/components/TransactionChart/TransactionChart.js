@@ -27,7 +27,7 @@ const data = [
 
 export default function TransactionChart({ title }) {
     const theme = useTheme();
-
+    console.log(data);
     return (
         <React.Fragment>
             <Title>{title}</Title>

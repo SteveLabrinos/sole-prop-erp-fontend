@@ -24,6 +24,7 @@ const TransactionList = lazy(() => import(`./containers/Transaction/TransactionL
 const TransactionReport = lazy(() => import(`./containers/Transaction/TransactionReport`));
 const TransactionCreate = lazy(() => import(`./containers/Transaction/TransactionCreate`));
 const InvoiceList = lazy(() => import(`./containers/Invoice/InvoiceList`));
+const Report = lazy(() => import(`./containers/Report/Report`));
 
 
 /** @author Stavros Labrinos [stalab at linuxmail.org] on 19/2/21.*/
@@ -71,6 +72,7 @@ function App() {
             <Route path="/transactions/:id" render={ props => <TransactionReport token={token} {...props} /> } />
             <Route path="/transactions" render={ props => <TransactionList token={token} {...props} /> } />
             <Route path="/invoices" render={ props => <InvoiceList token={token} {...props} /> } />
+            <Route path="/reports" render={ props => <Report token={token} {...props} /> } />
             <Route path="/" exact render={ props => <Dashboard token={token} {...props} /> } />
             <Redirect to="/" />
         </Switch> :
@@ -80,6 +82,7 @@ function App() {
             <Route path="/price-lists" render={ props => <PriceList token={token} {...props} /> } />
             <Route path="/transactions" render={ props => <TransactionList token={token} {...props} /> } />
             <Route path="/invoices" render={ props => <InvoiceList token={token} {...props} /> } />
+            <Route path="/reports" render={ props => <Report token={token} {...props} /> } />
             <Route path="/auth/sign-in" render={props => <SignIn {...props} />} />
             <Route path="/auth/sign-up" render={props => <SignUp {...props} />} />
             <Redirect to="/auth/sign-in" />

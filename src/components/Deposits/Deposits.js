@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from '../../UI/Title/Title';
 import { Link as RouterLink } from 'react-router-dom';
+import { getMonthName } from '../../shared/utility';
 
 /**
  * @returns {JSX.Element}
@@ -16,19 +17,24 @@ const useStyles = makeStyles({
     },
 });
 
+const getCurrentDate = () => {
+    const date = new Date();
+    return `${getMonthName(date.getMonth())}, ${date.getFullYear()}`
+}
+
 export default function Deposits(props) {
     const classes = useStyles();
 
-    const { title } = props;
+    const { title, income } = props;
 
     return (
         <React.Fragment>
             <Title>{title}</Title>
             <Typography component="p" variant="h4">
-                320,40 €
+                {`${income} €`}
             </Typography>
             <Typography color="textSecondary" className={classes.depositContext}>
-                Φεβρουάριος, 2021
+                {getCurrentDate()}
             </Typography>
             <div>
                 <Link component={RouterLink} color="primary" to="/transactions">
