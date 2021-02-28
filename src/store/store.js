@@ -5,6 +5,7 @@ import entityReducer from '../containers/Entity/entitySlice';
 import itemReducer from '../containers/Item/itemSlice';
 import priceListReducer from '../containers/PriceList/priceListSlice';
 import transactionReducer from '../containers/Transaction/transactionSlice';
+import invoiceReducer from '../containers/Invoice/invoiceSlice';
 
 /** @author Stavros Labrinos [stalab at linuxmail.org] on 19/2/21.*/
 
@@ -16,6 +17,7 @@ const store = configureStore({
         item: itemReducer,
         priceList: priceListReducer,
         transaction: transactionReducer,
+        invoice: invoiceReducer,
     }
 });
 
