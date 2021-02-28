@@ -57,10 +57,9 @@ export default function TransactionDetails(props) {
 
     const handleAddTransactionItem = event => {
         event.preventDefault();
-        const updatedTransactionItemList = values.transactionItemList;
+        const updatedTransactionItemList = values.itemTransactionList;
         updatedTransactionItemList.push(transactionItemValues);
-        setValues({ ...values, transactionItemList:  updatedTransactionItemList });
-        console.log(values);
+        setValues({ ...values, itemTransactionList:  updatedTransactionItemList });
         setTransactionItemValues({
             itemId: '',
             unitPrice: '',
@@ -77,10 +76,10 @@ export default function TransactionDetails(props) {
     };
 
     const handleDeleteTransactionItem = id => {
-        const updatedTransactionItemList = values.transactionItemList;
+        const updatedTransactionItemList = values.itemTransactionList;
         setValues({
             ...values,
-            transactionItemList: updatedTransactionItemList
+            itemTransactionList: updatedTransactionItemList
                 .filter(item => item.itemId !== Number.parseInt(id))
         });
     };
@@ -162,7 +161,7 @@ export default function TransactionDetails(props) {
                 Υπηρεσίες Συναλλαγής
             </Typography>
             <Grid container justify="center" spacing={3}>
-                {values.transactionItemList.map(item => (
+                {values.itemTransactionList.map(item => (
                     <Grid item xs={12} sm={6} key={item.itemId}>
                         <Card>
                             <CardContent className={classes.itemCard}>

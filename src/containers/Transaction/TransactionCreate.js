@@ -87,7 +87,7 @@ export default function TransactionCreate({ token }) {
         paymentTerms: '',
         status: '',
         notes: '',
-        transactionItemList: [],
+        itemTransactionList: [],
     });
 
     const handleChange = property => event => {
@@ -109,9 +109,22 @@ export default function TransactionCreate({ token }) {
 
     //  insert or update forms data
     const handleSubmitTransaction = useCallback(() => {
+        //  handle output data before submitting
+        const postData = values;
+        let finalTransactionList = postData.itemTransactionList;
+
+        finalTransactionList = finalTransactionList.map(transactionItem => ({
+            item: { id: transactionItem.itemId },
+            unitPrice: Number(transactionItem.unitPrice),
+            discount: transactionItem.discount !== '-' ? Number(transactionItem.discount) : 0,
+            quantity: Number(transactionItem.quantity),
+        }));
+
+        postData.itemTransactionList = finalTransactionList;
+
         console.log('about to send data to the backend');
-        console.log(values);
-    });
+        console.log(postData);
+    }, [values]);
 
     //  loading progress if there are values to be retrieved
     const [loading, setLoading] = useState(false);
@@ -140,6 +153,13 @@ export default function TransactionCreate({ token }) {
     }, [processed, transactionId, onFetchTransaction, token]);
 
     const populateFields = transaction => {
+        const transactionList = transaction.itemTransactionList.map(transactionItem => ({
+            itemId: transactionItem.item.id,
+            unitPrice: transactionItem.unitPrice,
+            discount: transactionItem.discount,
+            quantity: transactionItem.quantity,
+        }));
+
         setValues({
             entityId: transaction.entityId,
             title: transaction.title,
@@ -148,7 +168,7 @@ export default function TransactionCreate({ token }) {
             paymentTerms: transaction.paymentTerms,
             status: transaction.status,
             notes: transaction.notes,
-            transactionItemList: transaction.transactionItemList,
+            itemTransactionList: transactionList,
         });
     };
 
