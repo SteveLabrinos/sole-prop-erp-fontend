@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { green } from "@material-ui/core/colors";
 import TransactionMaster from './TransactionMaster';
 import TransactionDetails from './TransactionDetails';
+import TransactionCheckout from './TransactionCheckout';
 
 /**
  * @returns {JSX.Element}
@@ -69,7 +70,7 @@ export default function TransactionStepper(props) {
             case 1:
                 return <TransactionDetails { ...props } />;
             case 2:
-                return 'Transaction Checkout';
+                return <TransactionCheckout { ...props } />;
             default:
                 return 'Άγνωστο βήμα οδηγού';
         }
@@ -109,6 +110,7 @@ export default function TransactionStepper(props) {
                                     <Button
                                         variant="contained"
                                         color="primary"
+                                        disabled
                                         onClick={submit}>
                                         Ενημέρωση Στοιχείων
                                     </Button> :
