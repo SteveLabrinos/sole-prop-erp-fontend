@@ -48,7 +48,7 @@ export default function PriceListUpdate({ token }) {
     const dispatch = useDispatch();
     const params = useParams();
 
-    const { loading, priceList, created, priceListError } = useSelector(priceListSelector)
+    const { loading, priceList, created, priceListError } = useSelector(priceListSelector);
 
     const [values, setValues] = useState({
         price_list_id: null,
@@ -73,7 +73,6 @@ export default function PriceListUpdate({ token }) {
     const handleChange = property => event => {
         if (priceListError) dispatch(clearPriceListError());
         setValues({ ...values, [property]: event.target.value });
-        console.log(values);
     };
 
     const handleSubmitPriceList = useCallback(event => {

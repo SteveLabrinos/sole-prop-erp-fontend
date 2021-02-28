@@ -179,7 +179,7 @@ export default function TransactionList({ token }) {
             <Fab color="primary"
                  className={classes.fab}
                  aria-label="add"
-                 onClick={() => alert('to be added')} >
+                 onClick={() => handleUpdateTransaction(null)} >
                 <AddIcon />
             </Fab>
             {displayingTransactions}

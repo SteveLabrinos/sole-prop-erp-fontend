@@ -31,10 +31,14 @@ const transaction = createSlice({
             state.transactions = action.payload;
             state.loading = false;
         },
+        clearError: state => {
+            state.error = null;
+        }
     }
 });
 
-export const { transactionStart, transactionFail, fetchTransactionSuccess } = transaction.actions;
+export const { transactionStart, transactionFail, fetchTransactionSuccess,
+    clearError } = transaction.actions;
 
 //  async actions using thunk and logic actions that dispatch many actions
 export const fetchTransactions = token => dispatch => {
