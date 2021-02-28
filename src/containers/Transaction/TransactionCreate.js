@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Redirect, useParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { transactionSelector, clearError } from './transactionSlice';
+import { transactionSelector, clearError, insertTransaction } from './transactionSlice';
 import { makeStyles } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import Typography from '@material-ui/core/Typography';
@@ -124,7 +124,8 @@ export default function TransactionCreate({ token }) {
 
         console.log('about to send data to the backend');
         console.log(postData);
-    }, [values]);
+        dispatch(insertTransaction(token, postData));
+    }, [values, dispatch, token]);
 
     //  transactionLoading progress if there are values to be retrieved
     const [loading, setLoading] = useState(false);

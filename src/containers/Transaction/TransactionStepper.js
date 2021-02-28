@@ -116,6 +116,7 @@ export default function TransactionStepper(props) {
                                     </Button> :
                                     <Button
                                         variant="contained"
+                                        disabled
                                         className={classes.create}
                                         onClick={submit}>
                                         Καταχώρηση Εγγραφής

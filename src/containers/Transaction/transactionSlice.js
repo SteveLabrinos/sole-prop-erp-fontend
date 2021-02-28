@@ -33,12 +33,18 @@ const transaction = createSlice({
         },
         clearError: state => {
             state.error = null;
-        }
+        },
+        addTransactionSuccess: state => {
+            state.processed = true;
+        },
+        clearProcessed: state => {
+            state.processed = false;
+        },
     }
 });
 
 export const { transactionStart, transactionFail, fetchTransactionSuccess,
-    clearError } = transaction.actions;
+    clearError, addTransactionSuccess } = transaction.actions;
 
 //  async actions using thunk and logic actions that dispatch many actions
 export const fetchTransactions = token => dispatch => {
@@ -65,6 +71,23 @@ export const fetchTransactions = token => dispatch => {
 
     getTransactions().catch(error => console.log(error));
 };
+
+export const insertTransaction = (token, data) => dispatch => {
+    const postTransaction = async () => {
+        const response = await fetch(`${baseURL}invoice?tokenId=${token}`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        });
+
+        response.ok ?
+            dispatch(addTransactionSuccess()) :
+            dispatch(transactionFail());
+    };
+
+    dispatch(transactionStart());
+
+    postTransaction().catch(error => console.log(error));
+}
 
 
 //  selectors
