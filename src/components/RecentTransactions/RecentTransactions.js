@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { Link as RouterLink } from 'react-router-dom';
 
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,30 +11,14 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from '../../UI/Title/Title';
 import { fetchTransactions, transactionSelector } from '../../containers/Transaction/transactionSlice';
-import { fetchEntitiesCollection, entitiesSelector } from '../../containers/Entity/entitySlice';
+import { entitiesSelector, fetchEntitiesCollection } from '../../containers/Entity/entitySlice';
 import LoadingProgress from "../../UI/LoadingProgress/LoadingProgress";
+import Typography from '@material-ui/core/Typography';
 
 /**
  * @returns {JSX.Element}
  * @author Stavros Lamprinos [stalab at linuxmail.org] on 28/2/2021.
  */
-
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-    return { id, date, name, shipTo, paymentMethod, amount };
-}
-
-const rows = [
-    createData(0, '16 Mar, 2019', 'Elvis Presley', 'Tupelo, MS', 'VISA ⠀•••• 3719', 312.44),
-    createData(1, '16 Mar, 2019', 'Paul McCartney', 'London, UK', 'VISA ⠀•••• 2574', 866.99),
-    createData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
-    createData(3, '16 Mar, 2019', 'Michael Jackson', 'Gary, IN', 'AMEX ⠀•••• 2000', 654.39),
-    createData(4, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', 212.79),
-];
-
-function preventDefault(event) {
-    event.preventDefault();
-}
 
 const useStyles = makeStyles((theme) => ({
     seeMore: {
@@ -42,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function RecentTransactions({ token }) {
+export default function RecentTransactions({ token, entityLoading, transactionLoading }) {
     const classes = useStyles();
     const dispatch = useDispatch();
 
@@ -70,36 +54,53 @@ export default function RecentTransactions({ token }) {
         }
     }, [entities.length, onFetchEntities, transactions.length, onFetchTransactions]);
 
-    return transactions.length === 0 || entities.length === 0 ?
+    const sortTransactions = transactions => {
+        const sortedTransactions = [];
+        transactions.map(tr => sortedTransactions.push(tr));
+
+        return sortedTransactions
+            .sort((a, b) => new Date(a.createdDate) - new Date(b.createdDate))
+            .slice(0, 5);
+    };
+
+    return transactionLoading || entityLoading ?
         <LoadingProgress /> :
-        <React.Fragment>
-            <Title>Πρόσφατες Συναλλαγές</Title>
-            <Table size="small">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Ημερομηνία</TableCell>
-                        <TableCell>Περιγραφή</TableCell>
-                        <TableCell>Συναλλασόμενος</TableCell>
-                        <TableCell>Τρόπος Πληρωμής</TableCell>
-                        <TableCell align="right">Συνολικό Ποσό</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {transactions.slice(0, 5).map(row => (
-                        <TableRow key={row.id}>
-                            <TableCell>{row.createdDate}</TableCell>
-                            <TableCell>{row.title}</TableCell>
-                            <TableCell>{entities.filter(e => e.id === row.entityId)[0].name}</TableCell>
-                            <TableCell>{paymentTerms.filter(t => t.code === row.paymentTerms)[0].value}</TableCell>
-                            <TableCell align="right">{`${Number(row.totalPrice).toFixed(2)} €`}</TableCell>
+        transactions.length === 0 || entities.length === 0 ?
+            <Typography
+                variant="h5"
+                component="p"
+                color="textSecondary">
+                Δεν βρέθηκαν καταχωρημένες συναλλαγές.
+            </Typography> :
+            <React.Fragment>
+                <Title>Πρόσφατες Συναλλαγές</Title>
+                <Table size="small">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Ημερομηνία</TableCell>
+                            <TableCell>Περιγραφή</TableCell>
+                            <TableCell>Συναλλασόμενος</TableCell>
+                            <TableCell>Τρόπος Πληρωμής</TableCell>
+                            <TableCell align="right">Συνολικό Ποσό</TableCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-            <div className={classes.seeMore}>
-                <Link color="primary" href="#" onClick={preventDefault}>
-                    Περισσότερα
-                </Link>
-            </div>
-        </React.Fragment>
+                    </TableHead>
+                    <TableBody>
+                        {sortTransactions(transactions)
+                            .map(row => (
+                            <TableRow key={row.id}>
+                                <TableCell>{row.createdDate}</TableCell>
+                                <TableCell>{row.title}</TableCell>
+                                <TableCell>{entities.filter(e => e.id === row.entityId)[0].name}</TableCell>
+                                <TableCell>{paymentTerms.filter(t => t.code === row.paymentTerms)[0].value}</TableCell>
+                                <TableCell align="right">{`${Number(row.totalPrice).toFixed(2)} €`}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+                <div className={classes.seeMore}>
+                    <Link color="primary" component={RouterLink} to="/transactions">
+                        Περισσότερα
+                    </Link>
+                </div>
+            </React.Fragment>
 }

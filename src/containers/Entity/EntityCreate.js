@@ -162,7 +162,7 @@ export default function EntityCreate({ token }) {
                     </Avatar>
                 }
                 <Typography component="h1" variant="h5">
-                    {entity ? 'Επεξεργασία Συναλλασόμενου' : 'Δημιουργία Συναλλασόμενου'}
+                    {entity ? 'Επεξεργασία Συναλλασσόμενου' : 'Δημιουργία Συναλλασσόμενου'}
                 </Typography>
                 {authRedirect}
                 {createdRedirect}

@@ -72,7 +72,7 @@ export default function TransactionList({ token }) {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const { loading, transactions, processed, paymentTerms, statuses } = useSelector(transactionSelector);
+    const { transactionLoading, transactions, processed, paymentTerms, statuses } = useSelector(transactionSelector);
     const { entities } = useSelector(entitiesSelector);
 
     //  async dispatch to fetch transactions
@@ -107,7 +107,7 @@ export default function TransactionList({ token }) {
     const authRedirect = !token? <Redirect to="auth/sign-in" /> : null;
 
     //  displaying data, waiting for transactions and entities
-    const displayingTransactions = loading ?
+    const displayingTransactions = transactionLoading ?
         <LoadingProgress /> :
         entities.length === 0 ?
             <LoadingProgress /> :

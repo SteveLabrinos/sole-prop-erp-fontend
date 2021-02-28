@@ -31,7 +31,7 @@ export default function TransactionMaster(props) {
         <Grid container spacing={3} justify="center">
             <Grid item xs={12} sm={6} md={4}>
                 <FormControl required fullWidth className={classes.formControl}>
-                    <InputLabel id="select-entity-label">Τύπος</InputLabel>
+                    <InputLabel id="select-entity-label">Συναλλασσόμενος</InputLabel>
                     <Select
                         labelId="select-entity-label"
                         id="select-entity"

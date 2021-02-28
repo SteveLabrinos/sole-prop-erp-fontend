@@ -137,7 +137,7 @@ export default function ItemCreate({ token }) {
                               deleteItem={handleDeleteItem}
                               id={itemId}
                               values={values}
-                              item={selectedItem}
+                              selectedItem={selectedItem}
                               itemTypes={itemTypes}
                               measurementCodes={measurementCodes}
                               change={handleChange} />

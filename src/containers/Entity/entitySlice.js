@@ -17,6 +17,13 @@ const entitySlice = createSlice({
             {code: 'PF', value: 'Παλαιού Φαλήρου'},
             {code: 'AG', value: 'Αιγαλέου'},
             {code: 'P1', value: 'Α΄ Πειραιά'},
+            {code: 'A1', value: 'Α΄ Αθηνών'},
+            {code: 'IB', value: 'ΙΒ΄ Αθηνών'},
+            {code: 'KA', value: 'Κατοίκων Εξωτερικού'},
+            {code: 'FA', value: 'Φ.Α.Ε. Αθηνών'},
+            {code: 'DH', value: 'Αγίου Δημητρίου'},
+            {code: 'AM', value: 'Αμαρουσίου'},
+            {code: 'AX', value: 'Αχαρνών'},
         ],
         countries: [
             {code: 'GR', value: 'Ελλάδα'},

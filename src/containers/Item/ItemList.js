@@ -73,7 +73,9 @@ export default function ItemList({ token }) {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const { loading, items, measurementCodes, itemTypes, created, selectedItem } = useSelector(itemSelector);
+    const { loading, items, measurementCodes, itemTypes,
+        created, selectedItem } = useSelector(itemSelector);
+
 
     //  async dispatch to fetch entities
     const onFetchItems = useCallback(() => {
@@ -150,7 +152,7 @@ export default function ItemList({ token }) {
             <Fab color="primary"
                  className={classes.fab}
                  aria-label="add"
-                 onClick={handleUpdateEntity} >
+                 onClick={() => handleUpdateEntity(null)} >
                 <AddIcon />
             </Fab>
             {displayItemList}

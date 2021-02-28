@@ -1,5 +1,6 @@
 import React from 'react';
-import { Redirect } from "react-router-dom";
+import { Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core';
 import Cockpit from '../../UI/Cockpit/Cockpit';
@@ -8,6 +9,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Deposits from '../../components/Deposits/Deposits';
 import RecentTransactions from '../../components/RecentTransactions/RecentTransactions';
+import TransactionChart from '../../components/TransactionChart/TransactionChart';
+import { entitiesSelector } from '../Entity/entitySlice';
+import { transactionSelector } from '../Transaction/transactionSlice';
 
 /**
  * @returns {JSX.Element}
@@ -33,6 +37,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function Dashboard ({ token }) {
     const classes = useStyles();
+    const { loading } = useSelector(entitiesSelector);
+    const { transactionLoading } = useSelector(transactionSelector);
 
     const authRedirect = !token? <Redirect to="auth/sign-in" /> : null;
 
@@ -49,12 +55,15 @@ export default function Dashboard ({ token }) {
                 </Grid>
                 <Grid item xs={12} md={8} lg={9}>
                     <Paper className={classes.paper} style={{ height: 240 }}>
-                        Chart here
+                        <TransactionChart title="Ανάλυση Εσόδων" />
                     </Paper>
                 </Grid>
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
-                        <RecentTransactions token={token} />
+                        <RecentTransactions
+                            entityLoading={loading}
+                            transactionLoading={transactionLoading}
+                            token={token} />
                     </Paper>
                 </Grid>
             </Grid>

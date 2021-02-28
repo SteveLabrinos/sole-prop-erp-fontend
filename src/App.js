@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 //  change to request backend communication locally or from deployed vm
-export const localDeployment = false;
+export const localDeployment = true;
 
 function App() {
     const classes = useStyles();

@@ -75,14 +75,14 @@ const itemSlice = createSlice({
             state.itemError = null;
         },
         fetchItem: (state, action) => {
-            state.item = state.items
+            state.selectedItem = state.items
                 .filter(i => i.id === Number.parseInt(action.payload))[0];
         },
         clearCreated: state => {
             state.created = false;
         },
         clearItem: state => {
-            state.item = false;
+            state.selectedItem = null;
         },
     }
 });

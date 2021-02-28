@@ -126,7 +126,7 @@ export default function TransactionCreate({ token }) {
         console.log(postData);
     }, [values]);
 
-    //  loading progress if there are values to be retrieved
+    //  transactionLoading progress if there are values to be retrieved
     const [loading, setLoading] = useState(false);
 
     //  getting the transaction from the DB for update

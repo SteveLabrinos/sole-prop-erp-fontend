@@ -5,7 +5,7 @@ const transaction = createSlice({
     name: 'transaction',
     initialState: {
         processed: false,
-        loading: false,
+        transactionLoading: false,
         error: null,
         transactions: [],
         paymentTerms: [
@@ -21,15 +21,15 @@ const transaction = createSlice({
     },
     reducers: {
         transactionStart: state => {
-            state.loading = true;
+            state.transactionLoading = true;
         },
         transactionFail: (state, action) => {
             state.error = action.payload;
-            state.loading = false;
+            state.transactionLoading = false;
         },
         fetchTransactionSuccess: (state, action) => {
             state.transactions = action.payload;
-            state.loading = false;
+            state.transactionLoading = false;
         },
         clearError: state => {
             state.error = null;

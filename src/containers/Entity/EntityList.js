@@ -99,7 +99,7 @@ export default function EntityList() {
     return (
         <React.Fragment>
             {authRedirect}
-            <Cockpit title="Συναλλασόμενοι" />
+            <Cockpit title="Συναλλασσόμενοι" />
             <Fab color="primary"
                  className={classes.fab}
                  aria-label="add"
