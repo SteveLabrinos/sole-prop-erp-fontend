@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 //  change to request backend communication locally or from deployed vm
-export const localDeployment = true;
+export const localDeployment = false;
 
 function App() {
     const classes = useStyles();
@@ -69,7 +69,7 @@ function App() {
             <Route path="/transactions/new" render={ props => <TransactionCreate token={token} {...props} /> } />
             <Route path="/transactions/:id" render={ props => <TransactionReport token={token} {...props} /> } />
             <Route path="/transactions" render={ props => <TransactionList token={token} {...props} /> } />
-            <Route path="/" exact render={ props => <Dashboard {...props} /> } />
+            <Route path="/" exact render={ props => <Dashboard token={token} {...props} /> } />
             <Redirect to="/" />
         </Switch> :
         <Switch>

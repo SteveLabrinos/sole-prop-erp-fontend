@@ -2,7 +2,7 @@ import { localDeployment } from '../App';
 
 export const baseURL = localDeployment ?
     'http://localhost:9002/msc/ais/soleerp/api/' :
-    'https://erp.msc-ais.site/msc/ais/soleerp/api/';
+    'https://sole-erp.msc-ais.site/msc/ais/soleerp/api/';
 
 export const getFirstLetters = string => {
     return string
