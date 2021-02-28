@@ -15,7 +15,7 @@ import InputLabel from '@material-ui/core/InputLabel';
  * @author Stavros Labrinos [stalab at linuxmail.org] on 28/2/21.
  */
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     formControl: {
         minWidth: 250,
     },

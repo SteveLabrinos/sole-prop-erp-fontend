@@ -113,13 +113,6 @@ export default function TransactionCreate({ token }) {
         console.log(values);
     });
 
-    //  mapper for item select list
-    const mapItemToDescription = id => {
-        return items
-            .filter(item => item.id === Number.parseInt(id))[0]
-            .description;
-    };
-
     //  loading progress if there are values to be retrieved
     const [loading, setLoading] = useState(false);
 
@@ -200,7 +193,6 @@ export default function TransactionCreate({ token }) {
                     transactionItemValues={transactionItemValues}
                     setTransactionItemValues={setTransactionItemValues}
                     handleTransactionItemChange={handleTransactionItemChange}
-                    mapItemToDescription={mapItemToDescription}
                     change={handleChange} />
             </div>
         </Container>

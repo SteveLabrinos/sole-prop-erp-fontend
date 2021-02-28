@@ -18,6 +18,11 @@ import CardActions from '@material-ui/core/CardActions';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 
+/**
+ * @returns {JSX.Element}
+ * @author Stavros Labrinos [stalab at linuxmail.org] on 24/2/21.
+ */
+
 const useStyles = makeStyles(theme => ({
     formControl: {
         minWidth: 250,

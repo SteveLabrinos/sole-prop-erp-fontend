@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { green } from "@material-ui/core/colors";
 import TransactionMaster from './TransactionMaster';
+import TransactionDetails from './TransactionDetails';
 
 /**
  * @returns {JSX.Element}
@@ -66,7 +67,7 @@ export default function TransactionStepper(props) {
             case 0:
                 return <TransactionMaster { ...props } />;
             case 1:
-                return 'Transaction Items';
+                return <TransactionDetails { ...props } />;
             case 2:
                 return 'Transaction Checkout';
             default:
