@@ -9,7 +9,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Deposits from '../../components/Deposits/Deposits';
 import TransactionChart from '../../components/TransactionChart/TransactionChart';
-import { dashboardSelector, fetchMonthlyIncome } from '../Dashboard/dashboardSlice';
+import { dashboardSelector, fetchIncomesPerMonth,
+    fetchMonthlyIncome } from '../Dashboard/dashboardSlice';
 import LoadingProgress from '../../UI/LoadingProgress/LoadingProgress';
 import Typography from '@material-ui/core/Typography';
 
@@ -39,18 +40,26 @@ export default function Report({ token }) {
     const classes = useStyles();
     const dispatch = useDispatch();
 
-    const { monthlyIncome, dashboardLoading } = useSelector(dashboardSelector);
+    const { monthlyIncome, dashboardLoading, incomes } = useSelector(dashboardSelector);
 
     //  get monthly income
     const onFetchMonthlyIncome = useCallback(() => {
         dispatch(fetchMonthlyIncome(token));
     }, [dispatch, token]);
 
+    //  get incomes per month
+    const onFetchIncomesPerMonth = useCallback(() => {
+        dispatch(fetchIncomesPerMonth(token));
+    }, [dispatch, token]);
+
     useEffect(() => {
         if (!monthlyIncome) {
             onFetchMonthlyIncome();
         }
-    }, [monthlyIncome, onFetchMonthlyIncome]);
+        if (incomes.length === 0) {
+            onFetchIncomesPerMonth();
+        }
+    }, [monthlyIncome, onFetchMonthlyIncome, onFetchIncomesPerMonth, incomes.length]);
 
     //  displaying data
     const authRedirect = !token? <Redirect to="auth/sign-in" /> : null;
@@ -59,6 +68,12 @@ export default function Report({ token }) {
         <LoadingProgress /> :
         <Paper className={classes.paper} style={{ height: 240 }}>
             <Deposits title="Μηνιαία Έσοδα" income={monthlyIncome} />
+        </Paper>;
+
+    const displayChart = dashboardLoading ?
+        <LoadingProgress /> :
+        <Paper className={classes.paper} style={{ height: 240 }}>
+            <TransactionChart title="Ανάλυση Εσόδων" incomes={incomes} />
         </Paper>;
 
     return (
@@ -71,9 +86,7 @@ export default function Report({ token }) {
                     {displayDeposits}
                 </Grid>
                 <Grid item xs={12} md={8} lg={9}>
-                    <Paper className={classes.paper} style={{ height: 240 }}>
-                        <TransactionChart title="Ανάλυση Εσόδων" />
-                    </Paper>
+                    {displayChart}
                 </Grid>
                 <Grid item xs={12}>
                     <Paper className={classes.paper} style={{ height: 100 }}>

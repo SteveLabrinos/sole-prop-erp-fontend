@@ -50,7 +50,7 @@ export const fetchMonthlyIncome = token => dispatch => {
 
 export const fetchIncomesPerMonth = token => dispatch => {
     const getIncomesPerMonth = async () => {
-        const response = await fetch(`${baseURL}transactions/income?tokenId=${token}`);
+        const response = await fetch(`${baseURL}transactions/income/monthly?tokenId=${token}`);
 
         if (response.ok) {
             dispatch(incomesPerMonthSuccess(await response.json()));

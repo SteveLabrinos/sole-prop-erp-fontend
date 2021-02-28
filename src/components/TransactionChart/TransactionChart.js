@@ -25,15 +25,18 @@ const data = [
 ];
 
 
-export default function TransactionChart({ title }) {
+export default function TransactionChart({ title, incomes }) {
     const theme = useTheme();
-    console.log(data);
+
+    console.log(incomes);
+
     return (
         <React.Fragment>
             <Title>{title}</Title>
             <ResponsiveContainer>
                 <LineChart
-                    data={data}
+                    // data={data}
+                    data={incomes}
                     margin={{
                         top: 16,
                         right: 16,
