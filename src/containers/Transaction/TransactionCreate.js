@@ -14,7 +14,7 @@ import LoadingProgress from '../../UI/LoadingProgress/LoadingProgress';
 import Avatar from '@material-ui/core/Avatar';
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
-import PriceListStepper from '../PriceList/PriceListStepper';
+import TransactionStepper from './TransactionStepper';
 import Container from '@material-ui/core/Container';
 
 
@@ -83,7 +83,7 @@ export default function TransactionCreate({ token }) {
         entityId: '',
         title: '',
         orderNumber: '',
-        companyFlag: '',
+        companyFlag: '0',
         paymentTerms: '',
         status: '',
         notes: '',
@@ -183,21 +183,25 @@ export default function TransactionCreate({ token }) {
                     </Avatar>
                 }
                 <Typography component="h1" variant="h5">
-                    {transactionId ? 'Επεξεργασία Τιμοκαταλόγου' :
-                        'Δημιουργία Τιμοκαταλόγου'
+                    {transactionId ? 'Επεξεργασία Συναλλαγής' :
+                        'Δημιουργία Συναλλαγής'
                     }
                 </Typography>
                 {authRedirect}
                 {processedRedirect}
                 {errorMsg}
-                <PriceListStepper submit={handleSubmitTransaction()}
-                                  values={values}
-                                  setValues={setValues}
-                                  transactionItemValues={transactionItemValues}
-                                  setTransactionItemValues={setTransactionItemValues}
-                                  handleTransactionItemChange={handleTransactionItemChange}
-                                  mapItemToDescription={mapItemToDescription}
-                                  change={handleChange} />
+                <TransactionStepper
+                    entities={entities}
+                    items={items}
+                    submit={handleSubmitTransaction}
+                    values={values}
+                    transactionId={transactionId}
+                    setValues={setValues}
+                    transactionItemValues={transactionItemValues}
+                    setTransactionItemValues={setTransactionItemValues}
+                    handleTransactionItemChange={handleTransactionItemChange}
+                    mapItemToDescription={mapItemToDescription}
+                    change={handleChange} />
             </div>
         </Container>
 }
